@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: 8a297a1bb931eaf48a5194660445cc6a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7044227621492040146
+    second: EscolheEquipamento_0
+  - first:
+      213: -488696913562329310
+    second: EscolheEquipamento_1
+  - first:
+      213: 2491765385688371446
+    second: EscolheEquipamento_2
+  - first:
+      213: -939868002445641880
+    second: EscolheEquipamento_3
+  - first:
+      213: 866571896181529691
+    second: EscolheEquipamento_4
+  - first:
+      213: 6588570892940389428
+    second: EscolheEquipamento_5
+  - first:
+      213: 7905326358708614807
+    second: EscolheEquipamento_6
+  - first:
+      213: 2595755385552982500
+    second: EscolheEquipamento_7
+  - first:
+      213: -2833943323564677115
+    second: EscolheEquipamento_8
+  - first:
+      213: 7006297015542125823
+    second: EscolheEquipamento_9
+  - first:
+      213: -1691276477009594203
+    second: EscolheEquipamento_10
+  - first:
+      213: -6506770620252104702
+    second: EscolheEquipamento_11
+  - first:
+      213: 1718433273219104283
+    second: EscolheEquipamento_12
+  - first:
+      213: 3246394167002221276
+    second: EscolheEquipamento_13
+  - first:
+      213: -1002431944186452109
+    second: EscolheEquipamento_14
+  - first:
+      213: -9176751686789805389
+    second: EscolheEquipamento_15
+  - first:
+      213: -3271702332083064502
+    second: EscolheEquipamento_16
+  - first:
+      213: -4223092672755001111
+    second: EscolheEquipamento_17
+  - first:
+      213: 2105912782481194469
+    second: EscolheEquipamento_18
+  - first:
+      213: 3477986381047726316
+    second: EscolheEquipamento_19
+  - first:
+      213: -1515196147582586915
+    second: EscolheEquipamento_20
+  - first:
+      213: -3585635821875833601
+    second: EscolheEquipamento_21
+  - first:
+      213: 3072482147226810710
+    second: EscolheEquipamento_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: EscolheEquipamento_0
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 502
+        width: 56
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d1270823bf12c160800000000000000
+      internalID: 7044227621492040146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_1
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 500
+        width: 24
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22f99401fbcc739f0800000000000000
+      internalID: -488696913562329310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_2
+      rect:
+        serializedVersion: 2
+        x: 475
+        y: 502
+        width: 61
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f0d1959a67849220800000000000000
+      internalID: 2491765385688371446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_3
+      rect:
+        serializedVersion: 2
+        x: 986
+        y: 502
+        width: 56
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 867b87a080be4f2f0800000000000000
+      internalID: -939868002445641880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_4
+      rect:
+        serializedVersion: 2
+        x: 1194
+        y: 569
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5c9c3c5c8ea60c00800000000000000
+      internalID: 866571896181529691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_5
+      rect:
+        serializedVersion: 2
+        x: 1617
+        y: 500
+        width: 47
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43ca033c15e4f6b50800000000000000
+      internalID: 6588570892940389428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_6
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 500
+        width: 50
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 796fb54607c55bd60800000000000000
+      internalID: 7905326358708614807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_7
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 500
+        width: 55
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e151bf25c9f50420800000000000000
+      internalID: 2595755385552982500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_8
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 500
+        width: 67
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5086655ef8fcba8d0800000000000000
+      internalID: -2833943323564677115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_9
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 500
+        width: 58
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff49442c30e5b3160800000000000000
+      internalID: 7006297015542125823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_10
+      rect:
+        serializedVersion: 2
+        x: 646
+        y: 500
+        width: 67
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a87ed241016788e0800000000000000
+      internalID: -1691276477009594203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_11
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 500
+        width: 50
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 208dce0689e43b5a0800000000000000
+      internalID: -6506770620252104702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_12
+      rect:
+        serializedVersion: 2
+        x: 807
+        y: 500
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1ebf6415f919d710800000000000000
+      internalID: 1718433273219104283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_13
+      rect:
+        serializedVersion: 2
+        x: 877
+        y: 500
+        width: 61
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cda41157b428d0d20800000000000000
+      internalID: 3246394167002221276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_14
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 472
+        width: 64
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37723473575a612f0800000000000000
+      internalID: -1002431944186452109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_15
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 500
+        width: 61
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ba4dec16f0a5a080800000000000000
+      internalID: -9176751686789805389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_16
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 502
+        width: 22
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a413f5d20149892d0800000000000000
+      internalID: -3271702332083064502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_17
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 472
+        width: 65
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e812eac69f8465c0800000000000000
+      internalID: -4223092672755001111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_18
+      rect:
+        serializedVersion: 2
+        x: 1302
+        y: 500
+        width: 58
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5edfebf9484b93d10800000000000000
+      internalID: 2105912782481194469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_19
+      rect:
+        serializedVersion: 2
+        x: 1372
+        y: 502
+        width: 98
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce00ff7bf2a444030800000000000000
+      internalID: 3477986381047726316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_20
+      rect:
+        serializedVersion: 2
+        x: 1480
+        y: 500
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddfac42b121f8fae0800000000000000
+      internalID: -1515196147582586915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_21
+      rect:
+        serializedVersion: 2
+        x: 1550
+        y: 502
+        width: 61
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff4dc2fa7334d3ec0800000000000000
+      internalID: -3585635821875833601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EscolheEquipamento_22
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 500
+        width: 67
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 659fe24fb36a3aa20800000000000000
+      internalID: 3072482147226810710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      EscolheEquipamento_0: 7044227621492040146
+      EscolheEquipamento_1: -488696913562329310
+      EscolheEquipamento_10: -1691276477009594203
+      EscolheEquipamento_11: -6506770620252104702
+      EscolheEquipamento_12: 1718433273219104283
+      EscolheEquipamento_13: 3246394167002221276
+      EscolheEquipamento_14: -1002431944186452109
+      EscolheEquipamento_15: -9176751686789805389
+      EscolheEquipamento_16: -3271702332083064502
+      EscolheEquipamento_17: -4223092672755001111
+      EscolheEquipamento_18: 2105912782481194469
+      EscolheEquipamento_19: 3477986381047726316
+      EscolheEquipamento_2: 2491765385688371446
+      EscolheEquipamento_20: -1515196147582586915
+      EscolheEquipamento_21: -3585635821875833601
+      EscolheEquipamento_22: 3072482147226810710
+      EscolheEquipamento_3: -939868002445641880
+      EscolheEquipamento_4: 866571896181529691
+      EscolheEquipamento_5: 6588570892940389428
+      EscolheEquipamento_6: 7905326358708614807
+      EscolheEquipamento_7: 2595755385552982500
+      EscolheEquipamento_8: -2833943323564677115
+      EscolheEquipamento_9: 7006297015542125823
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -22,7 +22,7 @@ public class MenuPrincipalManager : MonoBehaviour
 
     public void jogar()
     {
-        SceneManager.LoadScene("nomeDoNivelDeJogo");
+        SceneManager.LoadScene(nomeDoNivelDeJogo);
         
     }
 
