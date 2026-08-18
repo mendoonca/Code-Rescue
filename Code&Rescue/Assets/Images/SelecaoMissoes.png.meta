@@ -1,0 +1,624 @@
+fileFormatVersion: 2
+guid: a475cf821a62725448e6fc1710ae9fe2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4287584964854210630
+    second: SelecaoMissoes_0
+  - first:
+      213: -7235307163237230104
+    second: SelecaoMissoes_1
+  - first:
+      213: -3494493930738616675
+    second: SelecaoMissoes_2
+  - first:
+      213: -1657606659601215000
+    second: SelecaoMissoes_3
+  - first:
+      213: -1380964657779250995
+    second: SelecaoMissoes_4
+  - first:
+      213: -3746514875175993502
+    second: SelecaoMissoes_5
+  - first:
+      213: 1145017159758297392
+    second: SelecaoMissoes_6
+  - first:
+      213: -4908221489741074296
+    second: SelecaoMissoes_7
+  - first:
+      213: 2258952357120321446
+    second: SelecaoMissoes_8
+  - first:
+      213: 3695903822446262232
+    second: SelecaoMissoes_9
+  - first:
+      213: -5186806905682381393
+    second: SelecaoMissoes_10
+  - first:
+      213: -1371789132765313537
+    second: SelecaoMissoes_11
+  - first:
+      213: 2517086411842600990
+    second: SelecaoMissoes_12
+  - first:
+      213: -3539851980147421428
+    second: SelecaoMissoes_13
+  - first:
+      213: -6214990874878682587
+    second: SelecaoMissoes_14
+  - first:
+      213: -8721878899175148308
+    second: SelecaoMissoes_15
+  - first:
+      213: 7987099564550693582
+    second: SelecaoMissoes_16
+  - first:
+      213: -36375243836275215
+    second: SelecaoMissoes_17
+  - first:
+      213: -3797286002510954661
+    second: SelecaoMissoes_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SelecaoMissoes_0
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 500
+        width: 61
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 640e0761fcf808b30800000000000000
+      internalID: 4287584964854210630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_1
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 500
+        width: 24
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e9d7662876079b90800000000000000
+      internalID: -7235307163237230104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_2
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 571
+        width: 46
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d96f09cd840118fc0800000000000000
+      internalID: -3494493930738616675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_3
+      rect:
+        serializedVersion: 2
+        x: 885
+        y: 500
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e1d525868ffef8e0800000000000000
+      internalID: -1657606659601215000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_4
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 502
+        width: 99
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc8e2bdd5f3d5dce0800000000000000
+      internalID: -1380964657779250995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_5
+      rect:
+        serializedVersion: 2
+        x: 1172
+        y: 569
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26ffa672294b10cc0800000000000000
+      internalID: -3746514875175993502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_6
+      rect:
+        serializedVersion: 2
+        x: 1327
+        y: 571
+        width: 46
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 039be1d4a0be3ef00800000000000000
+      internalID: 1145017159758297392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_7
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 500
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8807b095f8e72ebb0800000000000000
+      internalID: -4908221489741074296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_8
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 500
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a720ba4339695f10800000000000000
+      internalID: 2258952357120321446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_9
+      rect:
+        serializedVersion: 2
+        x: 653
+        y: 474
+        width: 55
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d7faecd1fc7a4330800000000000000
+      internalID: 3695903822446262232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_10
+      rect:
+        serializedVersion: 2
+        x: 711
+        y: 500
+        width: 58
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa53244a992c408b0800000000000000
+      internalID: -5186806905682381393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_11
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 500
+        width: 67
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff548c24d0d66fce0800000000000000
+      internalID: -1371789132765313537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_12
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 500
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1047d661cc7ee220800000000000000
+      internalID: 2517086411842600990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_13
+      rect:
+        serializedVersion: 2
+        x: 1174
+        y: 502
+        width: 22
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0f89d5016befdec0800000000000000
+      internalID: -3539851980147421428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_14
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 500
+        width: 50
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52adf8c4abaefb9a0800000000000000
+      internalID: -6214990874878682587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_15
+      rect:
+        serializedVersion: 2
+        x: 1259
+        y: 500
+        width: 50
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce4b0b80a59a5f680800000000000000
+      internalID: -8721878899175148308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_16
+      rect:
+        serializedVersion: 2
+        x: 1314
+        y: 500
+        width: 67
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec2a8ba8cb0e7de60800000000000000
+      internalID: 7987099564550693582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_17
+      rect:
+        serializedVersion: 2
+        x: 1388
+        y: 500
+        width: 61
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f5458098e4ce7ff0800000000000000
+      internalID: -36375243836275215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelecaoMissoes_18
+      rect:
+        serializedVersion: 2
+        x: 1454
+        y: 500
+        width: 50
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5f75c5ef745d4bc0800000000000000
+      internalID: -3797286002510954661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SelecaoMissoes_0: 4287584964854210630
+      SelecaoMissoes_1: -7235307163237230104
+      SelecaoMissoes_10: -5186806905682381393
+      SelecaoMissoes_11: -1371789132765313537
+      SelecaoMissoes_12: 2517086411842600990
+      SelecaoMissoes_13: -3539851980147421428
+      SelecaoMissoes_14: -6214990874878682587
+      SelecaoMissoes_15: -8721878899175148308
+      SelecaoMissoes_16: 7987099564550693582
+      SelecaoMissoes_17: -36375243836275215
+      SelecaoMissoes_18: -3797286002510954661
+      SelecaoMissoes_2: -3494493930738616675
+      SelecaoMissoes_3: -1657606659601215000
+      SelecaoMissoes_4: -1380964657779250995
+      SelecaoMissoes_5: -3746514875175993502
+      SelecaoMissoes_6: 1145017159758297392
+      SelecaoMissoes_7: -4908221489741074296
+      SelecaoMissoes_8: 2258952357120321446
+      SelecaoMissoes_9: 3695903822446262232
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
