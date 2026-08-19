@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class MenuPrincipalManager : MonoBehaviour
 {
@@ -11,8 +12,11 @@ public class MenuPrincipalManager : MonoBehaviour
 
     void Update()
     {
-        // Se carregar no Backspace, volta no menu
-        if (painelInstrucoes != null && painelInstrucoes.activeSelf)
+        // Se carregar no Backspace, volta ao menu principal se as instruções OU o progresso estiverem abertos
+        bool painelAberto = (painelInstrucoes != null && painelInstrucoes.activeSelf) || 
+                            (painelProgresso != null && painelProgresso.activeSelf);
+
+        if (painelAberto)
         {
             if (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame)
             {
