@@ -4,17 +4,14 @@ using UnityEngine.SceneManagement;
 public class MenuEquipamentoManager : MonoBehaviour
 {
 
-    [SerializeField] private string drone;
-    [SerializeField] private string robo;
-
     public void jogarDrone()
     {
-        SceneManager.LoadScene(drone);
+        SceneManager.LoadScene("DroneNiveis");
     }
 
     public void jogarRobo()
     {
-        SceneManager.LoadScene(robo);
+        SceneManager.LoadScene("RoboNiveis");
     }
 
     public void VoltarAoMenuPrincipal()

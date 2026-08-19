@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EscolhaEquipamento.unity
     guid: 40c7253bb7bd467408b634b5710e5ceb
+  - enabled: 1
+    path: Assets/Scenes/DroneNiveis.unity
+    guid: ae609665470db414e99be9d5dcd71ce4
+  - enabled: 1
+    path: Assets/Scenes/RoboNiveis.unity
+    guid: 7fb77f02d514e3b458a9d2569f8f44e2
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

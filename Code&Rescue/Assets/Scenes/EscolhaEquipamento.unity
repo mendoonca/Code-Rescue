@@ -552,7 +552,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 610975284}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 748471161}
+        m_TargetAssemblyTypeName: MenuEquipamentoManager, Assembly-CSharp
+        m_MethodName: jogarDrone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &610975284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +636,7 @@ GameObject:
   - component: {fileID: 748471162}
   - component: {fileID: 748471161}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: MenuEquipamentoManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -642,8 +654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddb1245866f9d14e860c7f246e3ec5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrocaCenas
-  drone: 
-  robo: 
 --- !u!4 &748471162
 Transform:
   m_ObjectHideFlags: 0
@@ -1000,7 +1010,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1479238604}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 748471161}
+        m_TargetAssemblyTypeName: MenuEquipamentoManager, Assembly-CSharp
+        m_MethodName: jogarRobo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1479238604
 MonoBehaviour:
   m_ObjectHideFlags: 0

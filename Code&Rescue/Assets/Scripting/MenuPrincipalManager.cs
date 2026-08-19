@@ -7,6 +7,7 @@ public class MenuPrincipalManager : MonoBehaviour
     [SerializeField] private string nomeDoNivelDeJogo;
     [SerializeField] private GameObject painelMenuPrincipal;
     [SerializeField] private GameObject painelInstrucoes;
+    [SerializeField] private GameObject painelProgresso;
 
     void Update()
     {
@@ -28,7 +29,8 @@ public class MenuPrincipalManager : MonoBehaviour
 
     public void progresso()
     {
-        
+        painelMenuPrincipal.SetActive(false);
+        painelProgresso.SetActive(true);
     }
 
     public void instrucoes()
@@ -40,6 +42,7 @@ public class MenuPrincipalManager : MonoBehaviour
     public void voltarAoMenuPrincipal()
     {
         painelInstrucoes.SetActive(false);
+        painelProgresso.SetActive(false);
         painelMenuPrincipal.SetActive(true);
     }
 
