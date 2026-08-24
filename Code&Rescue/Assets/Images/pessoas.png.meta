@@ -119,12 +119,12 @@ TextureImporter:
       name: pessoas_0
       rect:
         serializedVersion: 2
-        x: 70
-        y: 320
-        width: 344
-        height: 385
+        x: 0
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: pessoas_1
       rect:
         serializedVersion: 2
-        x: 629
-        y: 326
-        width: 254
-        height: 377
+        x: 128
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -163,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c93161ad42b91d8438a8edd76cd0eeaa
     internalID: 0
     vertices: []
     indices: 

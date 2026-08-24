@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Tipos de elementos/blocos que podem existir em cada célula do mapa
+// Tipos de blocos que podem existir no mapa
 public enum TipoElemento
 {
     Vazio,
@@ -28,29 +28,31 @@ public class GridManager : MonoBehaviour
     public int altura = 5;
     public float tamanhoCelula = 1.2f;
 
-    [Header("Prefabs de Terreno e Elementos")]
-    public GameObject prefabCelulaBase; // Chão/Tile vazio de fundo
-    public GameObject prefabAguaInundacao;
-    public GameObject prefabArvores;
-    public GameObject prefabCasa;
-    public GameObject prefabCasaIncendio;
-    public GameObject prefabCasaInundacao;
-    public GameObject prefabChama;
-    public GameObject prefabDestrocos;
-    public GameObject prefabHospital;
-    public GameObject prefabMuroSacoAreia;
-    public GameObject prefabPessoas;
-    public GameObject prefabPessoasInundacao;
-    public GameObject prefabPredioSismoTerramoto;
+    [Header("Sprites de Base (Chão)")]
+    public Sprite spriteCelulaBase; // Chão/Tile vazio (opcional)
 
-    // Matrizes para guardar a lógica e as referências aos objetos instanciados
+    [Header("Sprites Individuais")]
+    public Sprite spriteAguaInundacao;
+    public Sprite spriteCasa;
+    public Sprite spriteCasaIncendio;
+    public Sprite spriteCasaInundacao;
+    public Sprite spriteChama;
+    public Sprite spriteDestrocos;
+    public Sprite spriteHospital;
+    public Sprite spriteMuroSacoAreia;
+    public Sprite spritePredioSismoTerramoto;
+
+    [Header("Sprites com Variações / Skins Aleatórias")]
+    public Sprite[] spritesArvores;            // Várias skins de árvores
+    public Sprite[] spritesPessoas;            // Várias skins de pessoas
+    public Sprite[] spritesPessoasInundacao;   // Várias skins de pessoas na água
+
     private TipoElemento[,] matrizElementos;
     private GameObject[,] matrizObjetosInstanciados;
 
-    // Posição onde o jogador começa a simulação
     public Vector2Int PosicaoInicialJogador { get; private set; } = new Vector2Int(0, 0);
 
-    // Inicialização do Singleton para acesso fácil através de outros scripts
+    // Configuração do Singleton
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -61,32 +63,32 @@ public class GridManager : MonoBehaviour
         Instance = this;
     }
 
-    // Inicializa a grelha ao iniciar a cena
+    // Inicializa o mapa ao carregar a cena
     private void Start()
     {
         InicializarGrelha();
     }
 
-    // Aloca a memória das matrizes e gera um nível base de teste
+    // Cria as matrizes de memória e instancia o chão individual célula a célula
     public void InicializarGrelha()
     {
         matrizElementos = new TipoElemento[largura, altura];
         matrizObjetosInstanciados = new GameObject[largura, altura];
 
-        // 1. Cria a base visual de células vazias
+        // 1. Cria uma célula de chão para cada coordenada (X, Y)
         for (int x = 0; x < largura; x++)
         {
             for (int y = 0; y < altura; y++)
             {
                 matrizElementos[x, y] = TipoElemento.Vazio;
-                if (prefabCelulaBase != null)
+                if (spriteCelulaBase != null)
                 {
-                    Instantiate(prefabCelulaBase, ObterPosicaoMundo(new Vector2Int(x, y)), Quaternion.identity, transform);
+                    CriarObjetoVisual(new Vector2Int(x, y), $"Chao_{x}_{y}", spriteCelulaBase, -1);
                 }
             }
         }
 
-        // 2. Carrega os elementos do cenário de exemplo
+        // 2. Carrega os elementos sobre as respetivas células
         CarregarCenarioTeste();
     }
 
@@ -95,30 +97,30 @@ public class GridManager : MonoBehaviour
     {
         bool isDrone = (GameManager.Instance != null && GameManager.Instance.EquipamentoSelecionado == TipoEquipamento.Drone);
 
-        // Define obstáculos fixos
-        DefinirElemento(new Vector2Int(1, 1), TipoElemento.Casa, prefabCasa);
-        DefinirElemento(new Vector2Int(2, 3), TipoElemento.Arvores, prefabArvores);
-        DefinirElemento(new Vector2Int(3, 1), TipoElemento.Destrocos, prefabDestrocos);
+        // Obstáculos fixos
+        DefinirElemento(new Vector2Int(1, 1), TipoElemento.Casa);
+        DefinirElemento(new Vector2Int(2, 3), TipoElemento.Arvores);
+        DefinirElemento(new Vector2Int(3, 1), TipoElemento.Destrocos);
 
-        // Água de inundação no caminho
-        DefinirElemento(new Vector2Int(1, 2), TipoElemento.AguaInundacao, prefabAguaInundacao);
+        // Água de inundação
+        DefinirElemento(new Vector2Int(1, 2), TipoElemento.AguaInundacao);
 
-        // Vítima a resgatar
-        DefinirElemento(new Vector2Int(3, 2), TipoElemento.Pessoas, prefabPessoas);
+        // Vítima a resgatar (escolhe automaticamente uma skin aleatória)
+        DefinirElemento(new Vector2Int(3, 2), TipoElemento.Pessoas);
 
-        // O Hospital só é instanciado para o Robô (pois o Drone só entrega o kit no local)
+        // O Hospital só aparece na missão do Robô
         if (!isDrone)
         {
-            DefinirElemento(new Vector2Int(4, 4), TipoElemento.Hospital, prefabHospital);
+            DefinirElemento(new Vector2Int(4, 4), TipoElemento.Hospital);
         }
     }
 
-    // Instancia e regista um elemento específico numa coordenada da matriz
-    public void DefinirElemento(Vector2Int coord, TipoElemento tipo, GameObject prefab)
+    // Define um elemento na grelha e seleciona a skin adequada
+    public void DefinirElemento(Vector2Int coord, TipoElemento tipo)
     {
         if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura) return;
 
-        // Remove objeto anterior se existir nessa coordenada
+        // Remove o elemento anterior se existir nessa coordenada
         if (matrizObjetosInstanciados[coord.x, coord.y] != null)
         {
             Destroy(matrizObjetosInstanciados[coord.x, coord.y]);
@@ -126,29 +128,92 @@ public class GridManager : MonoBehaviour
 
         matrizElementos[coord.x, coord.y] = tipo;
 
-        if (prefab != null)
+        Sprite spriteEscolhido = ObterSpritePorTipo(tipo);
+        if (spriteEscolhido != null)
         {
-            GameObject obj = Instantiate(prefab, ObterPosicaoMundo(coord), Quaternion.identity, transform);
+            GameObject obj = CriarObjetoVisual(coord, tipo.ToString(), spriteEscolhido, 0);
             matrizObjetosInstanciados[coord.x, coord.y] = obj;
         }
     }
 
-    // Converte as coordenadas da grelha (x, y) em coordenadas do mundo Unity (Vector3)
+    // Escolhe o Sprite correto, aplicando sorteio aleatório se tiver múltiplas skins
+    private Sprite ObterSpritePorTipo(TipoElemento tipo)
+    {
+        switch (tipo)
+        {
+            case TipoElemento.AguaInundacao: return spriteAguaInundacao;
+            case TipoElemento.Casa: return spriteCasa;
+            case TipoElemento.CasaIncendio: return spriteCasaIncendio;
+            case TipoElemento.CasaInundacao: return spriteCasaInundacao;
+            case TipoElemento.Chama: return spriteChama;
+            case TipoElemento.Destrocos: return spriteDestrocos;
+            case TipoElemento.Hospital: return spriteHospital;
+            case TipoElemento.MuroSacoAreia: return spriteMuroSacoAreia;
+            case TipoElemento.PredioSismoTerramoto: return spritePredioSismoTerramoto;
+
+            // Seleção aleatória de skin para as árvores
+            case TipoElemento.Arvores:
+                if (spritesArvores != null && spritesArvores.Length > 0)
+                    return spritesArvores[Random.Range(0, spritesArvores.Length)];
+                break;
+
+            // Seleção aleatória de skin para pessoas
+            case TipoElemento.Pessoas:
+                if (spritesPessoas != null && spritesPessoas.Length > 0)
+                    return spritesPessoas[Random.Range(0, spritesPessoas.Length)];
+                break;
+
+            // Seleção aleatória de skin para pessoas em inundação
+            case TipoElemento.PessoasInundacao:
+                if (spritesPessoasInundacao != null && spritesPessoasInundacao.Length > 0)
+                    return spritesPessoasInundacao[Random.Range(0, spritesPessoasInundacao.Length)];
+                break;
+        }
+        return null;
+    }
+
+    // Cria o GameObject no mundo e ajusta a escala para preencher exatamente 1 célula
+    private GameObject CriarObjetoVisual(Vector2Int coord, string nome, Sprite sprite, int sortingOrder)
+    {
+        GameObject obj = new GameObject(nome);
+        obj.transform.parent = transform;
+        obj.transform.position = ObterPosicaoMundo(coord);
+
+        SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
+        sr.sprite = sprite;
+        sr.sortingOrder = sortingOrder;
+
+        if (sprite != null)
+        {
+            float larguraSprite = sprite.bounds.size.x;
+            float alturaSprite = sprite.bounds.size.y;
+
+            if (larguraSprite > 0 && alturaSprite > 0)
+            {
+                float escalaX = tamanhoCelula / larguraSprite;
+                float escalaY = tamanhoCelula / alturaSprite;
+                obj.transform.localScale = new Vector3(escalaX, escalaY, 1f);
+            }
+        }
+
+        return obj;
+    }
+
+    // Converte coordenada da matriz (X, Y) para posição no mundo Unity
     public Vector3 ObterPosicaoMundo(Vector2Int gridPos)
     {
         return new Vector3(gridPos.x * tamanhoCelula, -gridPos.y * tamanhoCelula, 0);
     }
 
-    // Valida se o veículo (Drone ou Robô) pode mover-se para a célula de destino
+    // Valida se o veículo pode passar para a célula
     public bool PodeMoverPara(Vector2Int coord, bool isDrone)
     {
-        // 1. Fora dos limites da grelha
         if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura)
             return false;
 
         TipoElemento elemento = matrizElementos[coord.x, coord.y];
 
-        // 2. Obstáculos intransponíveis para ambos
+        // Obstáculos que bloqueiam sempre
         if (elemento == TipoElemento.Casa ||
             elemento == TipoElemento.CasaIncendio ||
             elemento == TipoElemento.CasaInundacao ||
@@ -159,17 +224,16 @@ public class GridManager : MonoBehaviour
             return false;
         }
 
-        // 3. Água de inundação: Drone passa, Robô só passa se já tiver MuroSacoAreia
+        // Água de inundação
         if (elemento == TipoElemento.AguaInundacao)
         {
-            return isDrone; // True para Drone, False para Robô
+            return isDrone; // Drone voa por cima, Robô só passa se já tiver saco de areia
         }
 
-        // Células Vazias, Vítimas, Hospital e MuroSacoAreia são sempre transitáveis
         return true;
     }
 
-    // Ação do Robô: coloca saco de areia sobre a água para criar uma passagem segura
+    // Transforma a célula de água em saco de areia transitável
     public bool ColocarSacoDeAreia(Vector2Int coord)
     {
         if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura)
@@ -177,14 +241,14 @@ public class GridManager : MonoBehaviour
 
         if (matrizElementos[coord.x, coord.y] == TipoElemento.AguaInundacao)
         {
-            DefinirElemento(coord, TipoElemento.MuroSacoAreia, prefabMuroSacoAreia);
+            DefinirElemento(coord, TipoElemento.MuroSacoAreia);
             return true;
         }
 
         return false;
     }
 
-    // Retorna o tipo de elemento presente numa determinada coordenada
+    // Consulta o elemento presente numa coordenada
     public TipoElemento ObterTipoElemento(Vector2Int coord)
     {
         if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura)
@@ -193,7 +257,7 @@ public class GridManager : MonoBehaviour
         return matrizElementos[coord.x, coord.y];
     }
 
-    // Limpa o elemento de uma célula após o resgate da vítima
+    // Limpa a célula (usado após resgate da vítima)
     public void LimparCelula(Vector2Int coord)
     {
         if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura) return;

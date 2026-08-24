@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 80798aa7cf213ea4b915a1d56a65cfc8
+guid: f335b9d5a4835d64da41a88984eafe07
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7123721418942076828
-    second: casaIncendio_0
+      213: 6929477487644325381
+    second: chao_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: casaIncendio_0
+      name: chao_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 24
-        width: 94
-        height: 104
+        x: 0
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c9752ee23ea8cd260800000000000000
-      internalID: 7123721418942076828
+      spriteID: 5063b12af037a2060800000000000000
+      internalID: 6929477487644325381
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      casaIncendio_0: 7123721418942076828
+      chao_0: 6929477487644325381
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

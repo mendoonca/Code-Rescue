@@ -119,12 +119,12 @@ TextureImporter:
       name: arvores_0
       rect:
         serializedVersion: 2
-        x: 63
-        y: 49
-        width: 386
-        height: 413
+        x: 0
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: arvores_1
       rect:
         serializedVersion: 2
-        x: 579
-        y: 41
-        width: 378
-        height: 430
+        x: 128
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -163,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 46fd495f9cb50664c9198e8cc791d0dd
     internalID: 0
     vertices: []
     indices: 

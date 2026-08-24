@@ -5,9 +5,6 @@ TextureImporter:
   - first:
       213: -3772299379569602918
     second: destrocos_0
-  - first:
-      213: 4096663455321609366
-    second: destrocos_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -119,10 +116,10 @@ TextureImporter:
       name: destrocos_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 954
-        height: 295
+        x: 5
+        y: 23
+        width: 120
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -133,28 +130,6 @@ TextureImporter:
       bones: []
       spriteID: a9ec35663b916abc0800000000000000
       internalID: -3772299379569602918
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: destrocos_1
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 219
-        width: 875
-        height: 593
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 694d4c225b54ad830800000000000000
-      internalID: 4096663455321609366
       vertices: []
       indices: 
       edges: []
@@ -174,7 +149,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       destrocos_0: -3772299379569602918
-      destrocos_1: 4096663455321609366
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

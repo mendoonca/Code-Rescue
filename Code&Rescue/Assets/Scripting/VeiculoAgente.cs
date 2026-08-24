@@ -35,6 +35,16 @@ public class VeiculoAgente : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.sprite = isDrone ? spriteDrone : spriteRobo;
+            spriteRenderer.sortingOrder = 1; // Fica sempre por cima do chão e elementos
+
+            // Ajusta o tamanho do player para 1 célula
+            if (spriteRenderer.sprite != null && GridManager.Instance != null)
+            {
+                float tam = GridManager.Instance.tamanhoCelula;
+                float escalaX = tam / spriteRenderer.sprite.bounds.size.x;
+                float escalaY = tam / spriteRenderer.sprite.bounds.size.y;
+                transform.localScale = new Vector3(escalaX, escalaY, 1f);
+            }
         }
 
         PosicionarNaGrelha(GridManager.Instance.PosicaoInicialJogador);
