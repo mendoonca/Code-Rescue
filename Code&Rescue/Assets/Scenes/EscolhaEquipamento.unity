@@ -203,8 +203,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 748471161}
-        m_TargetAssemblyTypeName: TrocaCenas, Assembly-CSharp
-        m_MethodName: VoltarAoMenuPrincipal
+        m_TargetAssemblyTypeName: MenuEquipamentoManager, Assembly-CSharp
+        m_MethodName: VoltarMenuPrincipal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -555,7 +555,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 748471161}
         m_TargetAssemblyTypeName: MenuEquipamentoManager, Assembly-CSharp
-        m_MethodName: jogarDrone
+        m_MethodName: EscolherDrone
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 748471161}
         m_TargetAssemblyTypeName: MenuEquipamentoManager, Assembly-CSharp
-        m_MethodName: jogarRobo
+        m_MethodName: EscolherRobo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

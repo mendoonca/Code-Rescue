@@ -1,181 +1,274 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Tipos de blocos que podem existir no mapa
 public enum TipoElemento
 {
     Vazio,
-    AguaInundacao,
-    Arvores,
     Casa,
     CasaIncendio,
     CasaInundacao,
     Chama,
+    PredioSismoTerramoto,
     Destrocos,
-    Hospital,
+    Arvores,
+    AguaInundacao,
     MuroSacoAreia,
     Pessoas,
     PessoasInundacao,
-    PredioSismoTerramoto
+    Hospital
 }
 
 public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
 
-    [Header("Dimensões e Espaçamento da Grelha")]
-    public int largura = 5;
-    public int altura = 5;
-    public float tamanhoCelula = 1.2f;
+    [Header("Configuração de Nível (1 = Incêndio, 2 = Inundação, 3 = Sismo/Incêndio)")]
+    [Range(1, 3)] public int nivelAtual = 1;
+    public float tamanhoBloco = 1f;
 
-    [Header("Sprites de Base (Chão)")]
-    public Sprite spriteCelulaBase; // Chão/Tile vazio (opcional)
-
-    [Header("Sprites Individuais")]
-    public Sprite spriteAguaInundacao;
+    [Header("Sprites de Cenário")]
+    public Sprite spriteCelulaBase;
     public Sprite spriteCasa;
     public Sprite spriteCasaIncendio;
     public Sprite spriteCasaInundacao;
     public Sprite spriteChama;
+    public Sprite spritePredioSismo;
     public Sprite spriteDestrocos;
-    public Sprite spriteHospital;
+    public Sprite spriteAguaInundacao;
     public Sprite spriteMuroSacoAreia;
-    public Sprite spritePredioSismoTerramoto;
+    public Sprite spriteHospital;
 
-    [Header("Sprites com Variações / Skins Aleatórias")]
-    public Sprite[] spritesArvores;            // Várias skins de árvores
-    public Sprite[] spritesPessoas;            // Várias skins de pessoas
-    public Sprite[] spritesPessoasInundacao;   // Várias skins de pessoas na água
+    [Header("Sprites com Variações")]
+    public Sprite[] spritesArvores;
+    public Sprite[] spritesPessoas;
+    public Sprite[] spritesPessoasInundacao;
 
-    private TipoElemento[,] matrizElementos;
-    private GameObject[,] matrizObjetosInstanciados;
+    private int tamanhoGrelha;
+    private TipoElemento[,] mapa;
+    private GameObject[,] objetosNoMapa;
+    private List<Vector2Int> posicoesLivres = new List<Vector2Int>();
+    private List<Vector2Int> posicoesVitimas = new List<Vector2Int>();
+    private Vector2Int posHospital;
 
-    public Vector2Int PosicaoInicialJogador { get; private set; } = new Vector2Int(0, 0);
+    public int TotalVitimasNivel { get; private set; } = 1;
 
-    // Configuração do Singleton
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
         Instance = this;
     }
 
-    // Inicializa o mapa ao carregar a cena
     private void Start()
     {
-        InicializarGrelha();
+        if (GameManager.Instance != null)
+        {
+            nivelAtual = GameManager.Instance.NivelSelecionado;
+        }
+
+        GerarNivel(nivelAtual);
     }
 
-    // Cria as matrizes de memória e instancia o chão individual célula a célula
-    public void InicializarGrelha()
+    // Carrega o Nível 1 fixo ou gera os Níveis 2 e 3 aleatoriamente
+    public void GerarNivel(int nivel)
     {
-        matrizElementos = new TipoElemento[largura, altura];
-        matrizObjetosInstanciados = new GameObject[largura, altura];
+        nivelAtual = nivel;
 
-        // 1. Cria uma célula de chão para cada coordenada (X, Y)
-        for (int x = 0; x < largura; x++)
+        if (nivel == 1)
         {
-            for (int y = 0; y < altura; y++)
+            // Nível 1: Dimensão 5x5 fixa, desenhada à mão com 3 caminhos possíveis
+            tamanhoGrelha = 5;
+            TotalVitimasNivel = 1;
+            LimparMapa();
+            ConfigurarMatriz();
+            MontarNivel1Fixo();
+        }
+        else
+        {
+            // Níveis 2 e 3: Procedurais e desafiantes
+            tamanhoGrelha = (nivel == 2) ? 7 : 9;
+            TotalVitimasNivel = (nivel == 2) ? 2 : 3;
+
+            int tentativas = 0;
+            bool mapaValido = false;
+
+            while (!mapaValido && tentativas < 300)
             {
-                matrizElementos[x, y] = TipoElemento.Vazio;
+                tentativas++;
+                LimparMapa();
+                ConfigurarMatriz();
+
+                if (nivel == 2) GerarNivelInundacaoAleatorio();
+                else GerarNivelSismoAleatorio();
+
+                mapaValido = ValidarMultiplosCaminhos(3);
+            }
+        }
+
+        AjustarCamara();
+    }
+
+    // Inicializa a matriz e o chão
+    private void ConfigurarMatriz()
+    {
+        mapa = new TipoElemento[tamanhoGrelha, tamanhoGrelha];
+        objetosNoMapa = new GameObject[tamanhoGrelha, tamanhoGrelha];
+        posicoesLivres.Clear();
+        posicoesVitimas.Clear();
+
+        for (int x = 0; x < tamanhoGrelha; x++)
+        {
+            for (int y = 0; y < tamanhoGrelha; y++)
+            {
+                mapa[x, y] = TipoElemento.Vazio;
                 if (spriteCelulaBase != null)
                 {
-                    CriarObjetoVisual(new Vector2Int(x, y), $"Chao_{x}_{y}", spriteCelulaBase, -1);
+                    CriarObjetoVisual(new Vector2Int(x, y), spriteCelulaBase, -1);
+                }
+
+                if ((x != 0 || y != 0) && (x != tamanhoGrelha - 1 || y != tamanhoGrelha - 1))
+                {
+                    posicoesLivres.Add(new Vector2Int(x, y));
                 }
             }
         }
 
-        // 2. Carrega os elementos sobre as respetivas células
-        CarregarCenarioTeste();
+        bool isDrone = (GameManager.Instance != null && GameManager.Instance.EquipamentoSelecionado == TipoEquipamento.Drone);
+        if (!isDrone)
+        {
+            posHospital = new Vector2Int(tamanhoGrelha - 1, tamanhoGrelha - 1);
+            InstanciarElemento(posHospital, TipoElemento.Hospital, spriteHospital);
+        }
     }
 
-    // Configura o mapa de teste inicial respeitando a escolha entre Drone e Robô
-    private void CarregarCenarioTeste()
+    // Nível 1: Layout fixo desenhado à mão com 3 rotas (desvio obrigatório)
+    private void MontarNivel1Fixo()
+    {
+        Vector2Int v1 = new Vector2Int(0, 4);
+        posicoesVitimas.Add(v1);
+        InstanciarElemento(v1, TipoElemento.Pessoas, ObterSkinPessoas());
+
+        InstanciarElemento(new Vector2Int(0, 1), TipoElemento.Chama, spriteChama);
+        InstanciarElemento(new Vector2Int(0, 2), TipoElemento.Casa, spriteCasa);
+
+        InstanciarElemento(new Vector2Int(1, 4), TipoElemento.CasaIncendio, spriteCasaIncendio);
+        InstanciarElemento(new Vector2Int(1, 1), TipoElemento.Arvores, ObterSkinArvores());
+        InstanciarElemento(new Vector2Int(1, 3), TipoElemento.Chama, spriteChama);
+
+
+        InstanciarElemento(new Vector2Int(2, 1), TipoElemento.CasaIncendio, spriteCasaIncendio);
+        InstanciarElemento(new Vector2Int(2, 3), TipoElemento.Chama, spriteChama);
+
+        InstanciarElemento(new Vector2Int(3, 3), TipoElemento.Casa, spriteCasa);
+
+        InstanciarElemento(new Vector2Int(4, 0), TipoElemento.Arvores, ObterSkinArvores());
+        InstanciarElemento(new Vector2Int(4, 1), TipoElemento.Arvores, ObterSkinArvores());
+        InstanciarElemento(new Vector2Int(4, 2), TipoElemento.Chama, spriteChama);
+    }
+
+    // Nível 2 (Inundação 7x7): Procedural
+    private void GerarNivelInundacaoAleatorio()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Vector2Int v = SortearPosicaoLivre();
+            posicoesVitimas.Add(v);
+            InstanciarElemento(v, TipoElemento.PessoasInundacao, ObterSkinPessoasInundacao());
+        }
+
+        for (int i = 0; i < 9; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.AguaInundacao, spriteAguaInundacao);
+        for (int i = 0; i < 4; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.CasaInundacao, spriteCasaInundacao);
+        for (int i = 0; i < 4; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Arvores, ObterSkinArvores());
+    }
+
+    // Nível 3 (Sismo e Incêndio 9x9): Procedural
+    private void GerarNivelSismoAleatorio()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Vector2Int v = SortearPosicaoLivre();
+            posicoesVitimas.Add(v);
+            InstanciarElemento(v, TipoElemento.Pessoas, ObterSkinPessoas());
+        }
+
+        for (int i = 0; i < 11; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.PredioSismoTerramoto, spritePredioSismo);
+        for (int i = 0; i < 9; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Destrocos, spriteDestrocos);
+        for (int i = 0; i < 5; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Chama, spriteChama);
+        for (int i = 0; i < 4; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.CasaIncendio, spriteCasaIncendio);
+    }
+
+    // Validação de múltiplas rotas para níveis aleatórios
+    private bool ValidarMultiplosCaminhos(int minCaminhos)
     {
         bool isDrone = (GameManager.Instance != null && GameManager.Instance.EquipamentoSelecionado == TipoEquipamento.Drone);
 
-        // Obstáculos fixos
-        DefinirElemento(new Vector2Int(1, 1), TipoElemento.Casa);
-        DefinirElemento(new Vector2Int(2, 3), TipoElemento.Arvores);
-        DefinirElemento(new Vector2Int(3, 1), TipoElemento.Destrocos);
+        foreach (Vector2Int vitima in posicoesVitimas)
+        {
+            if (ContarRotas(new Vector2Int(0, 0), vitima, isDrone, minCaminhos) < minCaminhos)
+                return false;
+        }
 
-        // Água de inundação
-        DefinirElemento(new Vector2Int(1, 2), TipoElemento.AguaInundacao);
-
-        // Vítima a resgatar (escolhe automaticamente uma skin aleatória)
-        DefinirElemento(new Vector2Int(3, 2), TipoElemento.Pessoas);
-
-        // O Hospital só aparece na missão do Robô
         if (!isDrone)
         {
-            DefinirElemento(new Vector2Int(4, 4), TipoElemento.Hospital);
+            foreach (Vector2Int vitima in posicoesVitimas)
+            {
+                if (ContarRotas(vitima, posHospital, isDrone, minCaminhos) < minCaminhos)
+                    return false;
+            }
         }
+
+        return true;
     }
 
-    // Define um elemento na grelha e seleciona a skin adequada
-    public void DefinirElemento(Vector2Int coord, TipoElemento tipo)
+    // DFS para contagem de rotas
+    private int ContarRotas(Vector2Int origem, Vector2Int destino, bool isDrone, int maxLimite)
     {
-        if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura) return;
+        int total = 0;
+        HashSet<Vector2Int> visitados = new HashSet<Vector2Int>();
 
-        // Remove o elemento anterior se existir nessa coordenada
-        if (matrizObjetosInstanciados[coord.x, coord.y] != null)
+        void DFS(Vector2Int pos)
         {
-            Destroy(matrizObjetosInstanciados[coord.x, coord.y]);
+            if (total >= maxLimite) return;
+            if (pos == destino) { total++; return; }
+
+            Vector2Int[] dirs = { new Vector2Int(0, 1), new Vector2Int(0, -1), new Vector2Int(1, 0), new Vector2Int(-1, 0) };
+            foreach (var d in dirs)
+            {
+                Vector2Int viz = pos + d;
+                if (viz.x >= 0 && viz.x < tamanhoGrelha && viz.y >= 0 && viz.y < tamanhoGrelha && !visitados.Contains(viz))
+                {
+                    if (viz == destino || PodeMoverPara(viz, isDrone) || (!isDrone && mapa[viz.x, viz.y] == TipoElemento.AguaInundacao))
+                    {
+                        visitados.Add(viz);
+                        DFS(viz);
+                        visitados.Remove(viz);
+                    }
+                }
+            }
         }
 
-        matrizElementos[coord.x, coord.y] = tipo;
-
-        Sprite spriteEscolhido = ObterSpritePorTipo(tipo);
-        if (spriteEscolhido != null)
-        {
-            GameObject obj = CriarObjetoVisual(coord, tipo.ToString(), spriteEscolhido, 0);
-            matrizObjetosInstanciados[coord.x, coord.y] = obj;
-        }
+        visitados.Add(origem);
+        DFS(origem);
+        return total;
     }
 
-    // Escolhe o Sprite correto, aplicando sorteio aleatório se tiver múltiplas skins
-    private Sprite ObterSpritePorTipo(TipoElemento tipo)
+    private Vector2Int SortearPosicaoLivre()
     {
-        switch (tipo)
-        {
-            case TipoElemento.AguaInundacao: return spriteAguaInundacao;
-            case TipoElemento.Casa: return spriteCasa;
-            case TipoElemento.CasaIncendio: return spriteCasaIncendio;
-            case TipoElemento.CasaInundacao: return spriteCasaInundacao;
-            case TipoElemento.Chama: return spriteChama;
-            case TipoElemento.Destrocos: return spriteDestrocos;
-            case TipoElemento.Hospital: return spriteHospital;
-            case TipoElemento.MuroSacoAreia: return spriteMuroSacoAreia;
-            case TipoElemento.PredioSismoTerramoto: return spritePredioSismoTerramoto;
-
-            // Seleção aleatória de skin para as árvores
-            case TipoElemento.Arvores:
-                if (spritesArvores != null && spritesArvores.Length > 0)
-                    return spritesArvores[Random.Range(0, spritesArvores.Length)];
-                break;
-
-            // Seleção aleatória de skin para pessoas
-            case TipoElemento.Pessoas:
-                if (spritesPessoas != null && spritesPessoas.Length > 0)
-                    return spritesPessoas[Random.Range(0, spritesPessoas.Length)];
-                break;
-
-            // Seleção aleatória de skin para pessoas em inundação
-            case TipoElemento.PessoasInundacao:
-                if (spritesPessoasInundacao != null && spritesPessoasInundacao.Length > 0)
-                    return spritesPessoasInundacao[Random.Range(0, spritesPessoasInundacao.Length)];
-                break;
-        }
-        return null;
+        int idx = Random.Range(0, posicoesLivres.Count);
+        Vector2Int pos = posicoesLivres[idx];
+        posicoesLivres.RemoveAt(idx);
+        return pos;
     }
 
-    // Cria o GameObject no mundo e ajusta a escala para preencher exatamente 1 célula
-    private GameObject CriarObjetoVisual(Vector2Int coord, string nome, Sprite sprite, int sortingOrder)
+    private void InstanciarElemento(Vector2Int coord, TipoElemento tipo, Sprite sprite)
     {
-        GameObject obj = new GameObject(nome);
+        if (sprite == null || coord.x < 0 || coord.x >= tamanhoGrelha || coord.y < 0 || coord.y >= tamanhoGrelha) return;
+        mapa[coord.x, coord.y] = tipo;
+        GameObject obj = CriarObjetoVisual(coord, sprite, 0);
+        objetosNoMapa[coord.x, coord.y] = obj;
+    }
+
+    private GameObject CriarObjetoVisual(Vector2Int coord, Sprite sprite, int sortingOrder)
+    {
+        GameObject obj = new GameObject(sprite.name);
         obj.transform.parent = transform;
         obj.transform.position = ObterPosicaoMundo(coord);
 
@@ -183,90 +276,108 @@ public class GridManager : MonoBehaviour
         sr.sprite = sprite;
         sr.sortingOrder = sortingOrder;
 
-        if (sprite != null)
+        if (sprite != null && sprite.bounds.size.x > 0 && sprite.bounds.size.y > 0)
         {
-            float larguraSprite = sprite.bounds.size.x;
-            float alturaSprite = sprite.bounds.size.y;
-
-            if (larguraSprite > 0 && alturaSprite > 0)
-            {
-                float escalaX = tamanhoCelula / larguraSprite;
-                float escalaY = tamanhoCelula / alturaSprite;
-                obj.transform.localScale = new Vector3(escalaX, escalaY, 1f);
-            }
+            float escalaX = tamanhoBloco / sprite.bounds.size.x;
+            float escalaY = tamanhoBloco / sprite.bounds.size.y;
+            obj.transform.localScale = new Vector3(escalaX, escalaY, 1f);
         }
 
         return obj;
     }
 
-    // Converte coordenada da matriz (X, Y) para posição no mundo Unity
-    public Vector3 ObterPosicaoMundo(Vector2Int gridPos)
+    private void AjustarCamara()
     {
-        return new Vector3(gridPos.x * tamanhoCelula, -gridPos.y * tamanhoCelula, 0);
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        // 1. Centro real da grelha no mundo
+        float centroX = (tamanhoGrelha - 1) * tamanhoBloco / 2f;
+        float centroY = -(tamanhoGrelha - 1) * tamanhoBloco / 2f;
+
+        // 2. Altura da visão vertical com margem para os elementos de topo e base da UI
+        float margemVertical = (tamanhoGrelha == 9) ? 2.2f : ((tamanhoGrelha == 7) ? 1.8f : 1.4f);
+        cam.orthographicSize = (tamanhoGrelha * tamanhoBloco / 2f) + margemVertical;
+
+        // 3. Centralização Horizontal (75% da largura do ecrã)
+        float aspect = (float)Screen.width / Screen.height;
+        float larguraTotalMundo = cam.orthographicSize * 2f * aspect;
+        float posXCamara = centroX - (larguraTotalMundo / 4f);
+
+        // 4. Centralização Vertical: desce a câmara para empurrar o mapa para baixo do cabeçalho
+        float offsetTopo = cam.orthographicSize * 0.08f;
+        float posYCamara = centroY + offsetTopo;
+
+        cam.transform.position = new Vector3(posXCamara, posYCamara, -10f);
     }
 
-    // Valida se o veículo pode passar para a célula
+    private Sprite ObterSkinArvores() => (spritesArvores != null && spritesArvores.Length > 0) ? spritesArvores[Random.Range(0, spritesArvores.Length)] : null;
+    private Sprite ObterSkinPessoas() => (spritesPessoas != null && spritesPessoas.Length > 0) ? spritesPessoas[Random.Range(0, spritesPessoas.Length)] : null;
+    private Sprite ObterSkinPessoasInundacao() => (spritesPessoasInundacao != null && spritesPessoasInundacao.Length > 0) ? spritesPessoasInundacao[Random.Range(0, spritesPessoasInundacao.Length)] : null;
+
+    public Vector3 ObterPosicaoMundo(Vector2Int coord) => new Vector3(coord.x * tamanhoBloco, -coord.y * tamanhoBloco, 0);
+
     public bool PodeMoverPara(Vector2Int coord, bool isDrone)
     {
-        if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura)
+        if (coord.x < 0 || coord.x >= tamanhoGrelha || coord.y < 0 || coord.y >= tamanhoGrelha)
             return false;
 
-        TipoElemento elemento = matrizElementos[coord.x, coord.y];
+        TipoElemento elem = mapa[coord.x, coord.y];
 
-        // Obstáculos que bloqueiam sempre
-        if (elemento == TipoElemento.Casa ||
-            elemento == TipoElemento.CasaIncendio ||
-            elemento == TipoElemento.CasaInundacao ||
-            elemento == TipoElemento.PredioSismoTerramoto ||
-            elemento == TipoElemento.Destrocos ||
-            elemento == TipoElemento.Arvores)
+        if (elem == TipoElemento.Casa ||
+            elem == TipoElemento.CasaIncendio ||
+            elem == TipoElemento.CasaInundacao ||
+            elem == TipoElemento.Chama ||
+            elem == TipoElemento.PredioSismoTerramoto ||
+            elem == TipoElemento.Destrocos ||
+            elem == TipoElemento.Arvores)
         {
             return false;
         }
 
-        // Água de inundação
-        if (elemento == TipoElemento.AguaInundacao)
-        {
-            return isDrone; // Drone voa por cima, Robô só passa se já tiver saco de areia
-        }
+        if (elem == TipoElemento.AguaInundacao) return isDrone;
 
         return true;
     }
 
-    // Transforma a célula de água em saco de areia transitável
     public bool ColocarSacoDeAreia(Vector2Int coord)
     {
-        if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura)
-            return false;
+        if (coord.x < 0 || coord.x >= tamanhoGrelha || coord.y < 0 || coord.y >= tamanhoGrelha) return false;
 
-        if (matrizElementos[coord.x, coord.y] == TipoElemento.AguaInundacao)
+        if (mapa[coord.x, coord.y] == TipoElemento.AguaInundacao)
         {
-            DefinirElemento(coord, TipoElemento.MuroSacoAreia);
+            if (objetosNoMapa[coord.x, coord.y] != null)
+                Destroy(objetosNoMapa[coord.x, coord.y]);
+
+            InstanciarElemento(coord, TipoElemento.MuroSacoAreia, spriteMuroSacoAreia);
             return true;
         }
-
         return false;
     }
 
-    // Consulta o elemento presente numa coordenada
     public TipoElemento ObterTipoElemento(Vector2Int coord)
     {
-        if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura)
+        if (coord.x < 0 || coord.x >= tamanhoGrelha || coord.y < 0 || coord.y >= tamanhoGrelha)
             return TipoElemento.Vazio;
 
-        return matrizElementos[coord.x, coord.y];
+        return mapa[coord.x, coord.y];
     }
 
-    // Limpa a célula (usado após resgate da vítima)
     public void LimparCelula(Vector2Int coord)
     {
-        if (coord.x < 0 || coord.x >= largura || coord.y < 0 || coord.y >= altura) return;
+        if (coord.x < 0 || coord.x >= tamanhoGrelha || coord.y < 0 || coord.y >= tamanhoGrelha) return;
 
-        if (matrizObjetosInstanciados[coord.x, coord.y] != null)
+        if (objetosNoMapa[coord.x, coord.y] != null)
+            Destroy(objetosNoMapa[coord.x, coord.y]);
+
+        mapa[coord.x, coord.y] = TipoElemento.Vazio;
+    }
+
+    private void LimparMapa()
+    {
+        foreach (Transform child in transform)
         {
-            Destroy(matrizObjetosInstanciados[coord.x, coord.y]);
+            Destroy(child.gameObject);
         }
-
-        matrizElementos[coord.x, coord.y] = TipoElemento.Vazio;
     }
 }

@@ -10,26 +10,39 @@ public class RoboNiveisManager : MonoBehaviour
     {
         if (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame)
         {
-            VoltarAoMenuEquipamento();
+            Voltar();
         }
     }
 
-    public void jogarIncendio()
+    // Botão 1: Incêndio Florestal (Nível 1 - 5x5)
+    public void JogarIncendio()
     {
-        SceneManager.LoadScene("RoboIncendio");
+        if (GameManager.Instance != null)
+            GameManager.Instance.NivelSelecionado = 1;
+
+        SceneManager.LoadScene("MapaJogo");
     }
 
-    public void jogarInundacao()
+    // Botão 2: Inundação Urbana (Nível 2 - 7x7)
+    public void JogarInundacao()
     {
-        SceneManager.LoadScene("RoboInundacao");
+        if (GameManager.Instance != null)
+            GameManager.Instance.NivelSelecionado = 2;
+
+        SceneManager.LoadScene("MapaJogo");
     }
 
-    public void jogarSismoTerramoto()
+    // Botão 3: Sismo / Terramoto (Nível 3 - 9x9)
+    public void JogarSismo()
     {
-        SceneManager.LoadScene("RoboSismoTerramoto");
+        if (GameManager.Instance != null)
+            GameManager.Instance.NivelSelecionado = 3;
+
+        SceneManager.LoadScene("MapaJogo");
     }
 
-    public void VoltarAoMenuEquipamento()
+    // Botão Voltar: regressa à escolha de equipamento
+    public void Voltar()
     {
         SceneManager.LoadScene("EscolhaEquipamento");
     }

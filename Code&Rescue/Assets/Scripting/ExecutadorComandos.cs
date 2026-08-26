@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Tipos de ações e estruturas de controlo
 public enum TipoComando
 {
     MoverFrente,     // Cima (Y - 1)
     MoverTras,       // Baixo (Y + 1)
     MoverEsquerda,   // Esquerda (X - 1)
     MoverDireita,    // Direita (X + 1)
-    ColocarSaco,     // Coloca saco na célula à frente (Robô)
+    ColocarSaco,     // Ação do Robô
     IniciarCiclo,    // Ciclo (repetir X vezes)
     EncerrarCiclo,   // Fim do Ciclo
     IniciarSe,       // Se (condição)
     EncerrarSe       // Fim do Se
 }
 
-// Tipos de condições para o bloco 'Se'
 public enum TipoCondicao
 {
     FrenteTemAgua,
@@ -24,19 +22,18 @@ public enum TipoCondicao
     FrenteTemVitima
 }
 
-// Estrutura de cada bloco adicionado ao terminal
 [System.Serializable]
 public class BlocoComando
 {
     public TipoComando tipo;
-    public int valorCiclo = 2; // Quantidade de iterações do ciclo
-    public TipoCondicao condicaoSe;
+    public int valorCiclo = 2;
+    public TipoCondicao condicao;
 
     public BlocoComando(TipoComando tipo, int valor = 1, TipoCondicao cond = TipoCondicao.FrenteTemAgua)
     {
         this.tipo = tipo;
         this.valorCiclo = valor;
-        this.condicaoSe = cond;
+        this.condicao = cond;
     }
 }
 
@@ -52,7 +49,7 @@ public class ExecutadorComandos : MonoBehaviour
         Instance = this;
     }
 
-    // Métodos para ligar aos botões do Canvas
+    // Métodos para ligar aos botões UI
     public void AdicionarMoverFrente()   => Inserir(new BlocoComando(TipoComando.MoverFrente));
     public void AdicionarMoverTras()     => Inserir(new BlocoComando(TipoComando.MoverTras));
     public void AdicionarMoverEsquerda() => Inserir(new BlocoComando(TipoComando.MoverEsquerda));
@@ -65,15 +62,13 @@ public class ExecutadorComandos : MonoBehaviour
     public void AdicionarSe(TipoCondicao cond) => Inserir(new BlocoComando(TipoComando.IniciarSe, 1, cond));
     public void AdicionarEncerrarSe()          => Inserir(new BlocoComando(TipoComando.EncerrarSe));
 
-    // Insere o bloco na sequência
     private void Inserir(BlocoComando bloco)
     {
         if (emExecucao) return;
         algoritmo.Add(bloco);
-        Debug.Log($"Bloco adicionado: {bloco.tipo}. Total: {algoritmo.Count}");
+        Debug.Log($"Bloco inserido: {bloco.tipo}. Total: {algoritmo.Count}");
     }
 
-    // Remove todos os blocos do terminal
     public void LimparTerminal()
     {
         if (emExecucao) return;
@@ -81,7 +76,6 @@ public class ExecutadorComandos : MonoBehaviour
         Debug.Log("Terminal limpo.");
     }
 
-    // Inicia a execução do algoritmo
     public void IniciarExecucao()
     {
         if (!emExecucao && algoritmo.Count > 0)
@@ -89,18 +83,17 @@ public class ExecutadorComandos : MonoBehaviour
             if (PlayerProgressManager.Instance != null)
                 PlayerProgressManager.Instance.IniciarMissao();
 
-            StartCoroutine(InterpretarAlgoritmo());
+            StartCoroutine(ProcessarAlgoritmo());
         }
     }
 
-    // Interpretador sequencial com suporte a saltos de Loops e Condições
-    private IEnumerator InterpretarAlgoritmo()
+    // Executa as instruções com suporte a Loops e Ifs
+    private IEnumerator ProcessarAlgoritmo()
     {
         emExecucao = true;
 
         Stack<int> pilhaIndicesCiclo = new Stack<int>();
         Stack<int> pilhaContadoresCiclo = new Stack<int>();
-
         int ponteiro = 0;
 
         while (ponteiro < algoritmo.Count)
@@ -137,29 +130,27 @@ public class ExecutadorComandos : MonoBehaviour
                 case TipoComando.EncerrarCiclo:
                     if (pilhaContadoresCiclo.Count > 0)
                     {
-                        int contagemRestante = pilhaContadoresCiclo.Pop() - 1;
-                        int indiceInicio = pilhaIndicesCiclo.Pop();
+                        int restante = pilhaContadoresCiclo.Pop() - 1;
+                        int inicio = pilhaIndicesCiclo.Pop();
 
-                        if (contagemRestante > 0)
+                        if (restante > 0)
                         {
-                            pilhaContadoresCiclo.Push(contagemRestante);
-                            pilhaIndicesCiclo.Push(indiceInicio);
-                            ponteiro = indiceInicio; // Volta para dentro do ciclo
+                            pilhaContadoresCiclo.Push(restante);
+                            pilhaIndicesCiclo.Push(inicio);
+                            ponteiro = inicio; // Volta para repetir o loop
                         }
                     }
                     break;
 
                 case TipoComando.IniciarSe:
-                    bool condicaoVerdadeira = AvaliarCondicao(atual.condicaoSe);
+                    bool condicaoVerdadeira = AvaliarCondicao(atual.condicao);
                     if (!condicaoVerdadeira)
                     {
-                        // Salta para a instrução a seguir ao EncerrarSe correspondente
-                        ponteiro = EncontrarFimSe(ponteiro);
+                        ponteiro = EncontrarFimSe(ponteiro); // Salta o bloco 'Se'
                     }
                     break;
 
                 case TipoComando.EncerrarSe:
-                    // Apenas marcador de fecho do bloco
                     break;
             }
 
@@ -170,33 +161,27 @@ public class ExecutadorComandos : MonoBehaviour
         emExecucao = false;
     }
 
-    // Avalia a condição do bloco 'Se'
-    private bool AvaliarCondicao(TipoCondicao condicao)
+    private bool AvaliarCondicao(TipoCondicao cond)
     {
-        switch (condicao)
+        switch (cond)
         {
-            case TipoCondicao.FrenteTemAgua:
-                return VeiculoAgente.Instance.TemAguaAFrente();
-            case TipoCondicao.FrenteTemObstaculo:
-                return VeiculoAgente.Instance.TemObstaculoAFrente();
-            case TipoCondicao.FrenteTemVitima:
-                return VeiculoAgente.Instance.TemVitimaAFrente();
-            default:
-                return false;
+            case TipoCondicao.FrenteTemAgua: return VeiculoAgente.Instance.TemAguaAFrente();
+            case TipoCondicao.FrenteTemObstaculo: return VeiculoAgente.Instance.TemObstaculoAFrente();
+            case TipoCondicao.FrenteTemVitima: return VeiculoAgente.Instance.TemVitimaAFrente();
+            default: return false;
         }
     }
 
-    // Localiza o bloco EncerrarSe correspondente no caso de condição falsa
-    private int EncontrarFimSe(int indiceInicio)
+    private int EncontrarFimSe(int inicio)
     {
-        int profundidade = 0;
-        for (int i = indiceInicio; i < algoritmo.Count; i++)
+        int nivel = 0;
+        for (int i = inicio; i < algoritmo.Count; i++)
         {
-            if (algoritmo[i].tipo == TipoComando.IniciarSe) profundidade++;
+            if (algoritmo[i].tipo == TipoComando.IniciarSe) nivel++;
             else if (algoritmo[i].tipo == TipoComando.EncerrarSe)
             {
-                profundidade--;
-                if (profundidade == 0) return i;
+                nivel--;
+                if (nivel == 0) return i;
             }
         }
         return algoritmo.Count - 1;

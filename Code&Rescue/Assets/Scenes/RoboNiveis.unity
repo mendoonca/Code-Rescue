@@ -416,7 +416,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1185874674}
         m_TargetAssemblyTypeName: RoboNiveisManager, Assembly-CSharp
-        m_MethodName: VoltarAoMenuEquipamento
+        m_MethodName: Voltar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1135,7 +1135,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1185874674}
         m_TargetAssemblyTypeName: RoboNiveisManager, Assembly-CSharp
-        m_MethodName: jogarInundacao
+        m_MethodName: JogarInundacao
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1936,7 +1936,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1185874674}
         m_TargetAssemblyTypeName: RoboNiveisManager, Assembly-CSharp
-        m_MethodName: jogarSismoTerramoto
+        m_MethodName: JogarSismo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2306,7 +2306,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1185874674}
         m_TargetAssemblyTypeName: RoboNiveisManager, Assembly-CSharp
-        m_MethodName: jogarIncendio
+        m_MethodName: JogarIncendio
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

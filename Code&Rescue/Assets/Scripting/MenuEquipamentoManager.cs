@@ -10,21 +10,34 @@ public class MenuEquipamentoManager : MonoBehaviour
     {
         if (Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame)
         {
-            VoltarAoMenuPrincipal();
+            VoltarMenuPrincipal();
         }
     }
 
-    public void jogarDrone()
+    // Chamar no On Click () do botão do Drone
+    public void EscolherDrone()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.EquipamentoSelecionado = TipoEquipamento.Drone;
+        }
+
         SceneManager.LoadScene("DroneNiveis");
     }
 
-    public void jogarRobo()
+    // Chamar no On Click () do botão do Robô
+    public void EscolherRobo()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.EquipamentoSelecionado = TipoEquipamento.Robo;
+        }
+
         SceneManager.LoadScene("RoboNiveis");
     }
 
-    public void VoltarAoMenuPrincipal()
+    // Botão Voltar ao Menu Principal
+    public void VoltarMenuPrincipal()
     {
         SceneManager.LoadScene("Menu");
     }
