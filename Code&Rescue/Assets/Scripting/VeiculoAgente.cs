@@ -34,16 +34,14 @@ public class VeiculoAgente : MonoBehaviour
         }
         else
         {
-            // Caso estejas a testar diretamente na cena sem vir do Menu
-            isDrone = false; // Altera aqui para 'false' se quiseres forçar teste de Robô diretamente
+            isDrone = false;
         }
 
         if (spriteRenderer != null)
         {
             spriteRenderer.sprite = isDrone ? spriteDrone : spriteRobo;
-            spriteRenderer.sortingOrder = 2; // Fica visível à frente do chão
+            spriteRenderer.sortingOrder = 2;
 
-            // Ajusta a escala para 1 célula
             if (spriteRenderer.sprite != null && GridManager.Instance != null)
             {
                 float tam = GridManager.Instance.tamanhoBloco;
@@ -56,14 +54,12 @@ public class VeiculoAgente : MonoBehaviour
         PosicionarNaGrelha(Vector2Int.zero);
     }
 
-    // Posiciona o veículo numa coordenada da matriz
     public void PosicionarNaGrelha(Vector2Int coord)
     {
         PosicaoAtual = coord;
         transform.position = GridManager.Instance.ObterPosicaoMundo(coord);
     }
 
-    // Movimenta o veículo 1 bloco
     public IEnumerator MoverUmBloco(Vector2Int direcao)
     {
         DirecaoOlhar = direcao;
@@ -88,7 +84,6 @@ public class VeiculoAgente : MonoBehaviour
         VerificarInteracoes();
     }
 
-    // Robô coloca saco de areia à frente
     public void ExecutarColocarSacoAreia()
     {
         if (isDrone) return;
@@ -96,7 +91,6 @@ public class VeiculoAgente : MonoBehaviour
         GridManager.Instance.ColocarSacoDeAreia(alvo);
     }
 
-    // Sensores booleanos para os Ifs
     public bool TemAguaAFrente() => GridManager.Instance.ObterTipoElemento(PosicaoAtual + DirecaoOlhar) == TipoElemento.AguaInundacao;
     public bool TemObstaculoAFrente() => !GridManager.Instance.PodeMoverPara(PosicaoAtual + DirecaoOlhar, isDrone);
     public bool TemVitimaAFrente()
@@ -104,49 +98,70 @@ public class VeiculoAgente : MonoBehaviour
         TipoElemento elem = GridManager.Instance.ObterTipoElemento(PosicaoAtual + DirecaoOlhar);
         return elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao;
     }
+    public bool TemFogoAFrente() => GridManager.Instance.ObterTipoElemento(PosicaoAtual + DirecaoOlhar) == TipoElemento.Chama;
 
-    // Valida o progresso de resgates do nível atual
     private void VerificarInteracoes()
     {
         TipoElemento elem = GridManager.Instance.ObterTipoElemento(PosicaoAtual);
-        int totalNecessario = GridManager.Instance.TotalVitimasNivel;
 
-        // Regra do Drone
-        if (isDrone && (elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao))
+        if (!isDrone && elem == TipoElemento.Hospital && vitimasEmTransporte > 0)
         {
-            GridManager.Instance.LimparCelula(PosicaoAtual);
-            vitimasResgatadas++;
-            Debug.Log($"Kit entregue! Vítimas salvas: {vitimasResgatadas}/{totalNecessario}");
-
-            if (vitimasResgatadas >= totalNecessario)
-            {
-                Debug.Log("Todas as vítimas foram salvas pelo Drone! Missão Concluída!");
-                if (PlayerProgressManager.Instance != null)
-                    PlayerProgressManager.Instance.FinalizarMissao(true, 100f);
-            }
+            vitimasResgatadas += vitimasEmTransporte;
+            vitimasEmTransporte = 0;
+            int totalNecessario = GridManager.Instance.TotalVitimasNivel;
+            Debug.Log($"Vítimas entregues no Hospital! Total salvo: {vitimasResgatadas}/{totalNecessario}");
+            VerificarVitoria();
         }
-        // Regra do Robô
-        else if (!isDrone)
-        {
-            if (elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao)
-            {
-                GridManager.Instance.LimparCelula(PosicaoAtual);
-                vitimasEmTransporte++;
-                Debug.Log($"Vítima a bordo! Leva ao Hospital ({vitimasEmTransporte} a bordo).");
-            }
-            else if (elem == TipoElemento.Hospital && vitimasEmTransporte > 0)
-            {
-                vitimasResgatadas += vitimasEmTransporte;
-                vitimasEmTransporte = 0;
-                Debug.Log($"Vítimas entregues no Hospital! Total salvo: {vitimasResgatadas}/{totalNecessario}");
+    }
 
-                if (vitimasResgatadas >= totalNecessario)
-                {
-                    Debug.Log("Todas as vítimas estão a salvo no Hospital! Missão Concluída!");
-                    if (PlayerProgressManager.Instance != null)
-                        PlayerProgressManager.Instance.FinalizarMissao(true, 100f);
-                }
-            }
+    public void ExecutarApagarFogo()
+    {
+        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
+        if (GridManager.Instance.ObterTipoElemento(alvo) == TipoElemento.Chama)
+        {
+            GridManager.Instance.LimparCelula(alvo);
+            Debug.Log("Chama apagada com sucesso!");
+        }
+    }
+
+    public void ExecutarLargarKit()
+    {
+        if (!isDrone) return;
+        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
+        TipoElemento elem = GridManager.Instance.ObterTipoElemento(alvo);
+
+        if (elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao)
+        {
+            GridManager.Instance.LimparCelula(alvo);
+            vitimasResgatadas++;
+            int totalNecessario = GridManager.Instance.TotalVitimasNivel;
+            Debug.Log($"Kit entregue! Vítimas salvas: {vitimasResgatadas}/{totalNecessario}");
+            VerificarVitoria();
+        }
+    }
+
+    public void ExecutarResgatarPessoa()
+    {
+        if (isDrone) return;
+        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
+        TipoElemento elem = GridManager.Instance.ObterTipoElemento(alvo);
+
+        if (elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao)
+        {
+            GridManager.Instance.LimparCelula(alvo);
+            vitimasEmTransporte++;
+            Debug.Log($"Vítima recolhida! Vítimas a bordo: {vitimasEmTransporte}");
+        }
+    }
+
+    private void VerificarVitoria()
+    {
+        int totalNecessario = GridManager.Instance.TotalVitimasNivel;
+        if (vitimasResgatadas >= totalNecessario)
+        {
+            Debug.Log("Missão Concluída com Sucesso!");
+            if (PlayerProgressManager.Instance != null)
+                PlayerProgressManager.Instance.FinalizarMissao(true, 100f);
         }
     }
 }
