@@ -50,6 +50,14 @@ public class GridManager : MonoBehaviour
     private List<Vector2Int> posicoesVitimas = new List<Vector2Int>();
     private Vector2Int posHospital;
 
+    // Snapshot para restaurar o mapa original
+    private struct DadosCelula
+    {
+        public TipoElemento tipo;
+        public Sprite sprite;
+    }
+    private DadosCelula[,] mapaInicial;
+
     public int TotalVitimasNivel { get; private set; } = 1;
 
     private void Awake()
@@ -103,7 +111,50 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        SalvarEstadoInicial();
         AjustarCamara();
+    }
+
+    private void SalvarEstadoInicial()
+    {
+        mapaInicial = new DadosCelula[tamanhoGrelha, tamanhoGrelha];
+        for (int x = 0; x < tamanhoGrelha; x++)
+        {
+            for (int y = 0; y < tamanhoGrelha; y++)
+            {
+                mapaInicial[x, y].tipo = mapa[x, y];
+                if (objetosNoMapa[x, y] != null)
+                {
+                    SpriteRenderer sr = objetosNoMapa[x, y].GetComponent<SpriteRenderer>();
+                    if (sr != null) mapaInicial[x, y].sprite = sr.sprite;
+                }
+            }
+        }
+    }
+
+    public void RestaurarMapaOriginal()
+    {
+        if (mapaInicial == null) return;
+
+        for (int x = 0; x < tamanhoGrelha; x++)
+        {
+            for (int y = 0; y < tamanhoGrelha; y++)
+            {
+                // Apaga o objeto atual (ex: fogo apagado ou saco colocado)
+                if (objetosNoMapa[x, y] != null)
+                {
+                    Destroy(objetosNoMapa[x, y]);
+                    objetosNoMapa[x, y] = null;
+                }
+
+                // Recria o elemento original que estava lá no início
+                mapa[x, y] = mapaInicial[x, y].tipo;
+                if (mapaInicial[x, y].sprite != null)
+                {
+                    InstanciarElemento(new Vector2Int(x, y), mapa[x, y], mapaInicial[x, y].sprite);
+                }
+            }
+        }
     }
 
     // Inicializa a matriz e o chão
@@ -324,18 +375,23 @@ public class GridManager : MonoBehaviour
 
         TipoElemento elem = mapa[coord.x, coord.y];
 
+        // Bloqueia colisões contra estruturas sólidas, fogo e água sem proteção
         if (elem == TipoElemento.Casa ||
             elem == TipoElemento.CasaIncendio ||
             elem == TipoElemento.CasaInundacao ||
-            elem == TipoElemento.Chama ||
             elem == TipoElemento.PredioSismoTerramoto ||
             elem == TipoElemento.Destrocos ||
-            elem == TipoElemento.Arvores)
+            elem == TipoElemento.Arvores ||
+            elem == TipoElemento.Chama)
         {
             return false;
         }
 
-        if (elem == TipoElemento.AguaInundacao) return isDrone;
+        // Se for água, o robô só passa se houver um saco de areia colocado (MuroSacoAreia). O drone passa sempre.
+        if (elem == TipoElemento.AguaInundacao)
+        {
+            return isDrone;
+        }
 
         return true;
     }

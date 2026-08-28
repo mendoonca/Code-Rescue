@@ -60,12 +60,21 @@ public class VeiculoAgente : MonoBehaviour
         transform.position = GridManager.Instance.ObterPosicaoMundo(coord);
     }
 
+    public bool TeveDerrota { get; private set; } = false;
+
     public IEnumerator MoverUmBloco(Vector2Int direcao)
     {
         DirecaoOlhar = direcao;
         Vector2Int destino = PosicaoAtual + direcao;
+        TipoElemento elemDestino = GridManager.Instance.ObterTipoElemento(destino);
 
-        if (!GridManager.Instance.PodeMoverPara(destino, isDrone))
+        // Bloqueia apenas obstáculos intransponíveis
+        if (elemDestino == TipoElemento.Casa ||
+            elemDestino == TipoElemento.CasaIncendio ||
+            elemDestino == TipoElemento.CasaInundacao ||
+            elemDestino == TipoElemento.PredioSismoTerramoto ||
+            elemDestino == TipoElemento.Destrocos ||
+            elemDestino == TipoElemento.Arvores)
         {
             Debug.LogWarning($"Movimento bloqueado para {destino}!");
             yield break;
@@ -84,11 +93,38 @@ public class VeiculoAgente : MonoBehaviour
         VerificarInteracoes();
     }
 
+    public void ExecutarDerrota()
+    {
+        if (MissaoConcluida || TeveDerrota) return;
+
+        TeveDerrota = true;
+        StopAllCoroutines();
+
+        if (PlayerProgressManager.Instance != null)
+            PlayerProgressManager.Instance.FinalizarMissao(false, 0f);
+
+        if (MenuModaisManager.Instance != null)
+            MenuModaisManager.Instance.MostrarDerrota();
+    }
+
     public void ExecutarColocarSacoAreia()
     {
-        if (isDrone) return;
-        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
-        GridManager.Instance.ColocarSacoDeAreia(alvo);
+        Vector2Int frente = PosicaoAtual + DirecaoOlhar;
+        Vector2Int alvo = (GridManager.Instance.ObterTipoElemento(PosicaoAtual) == TipoElemento.AguaInundacao) ? PosicaoAtual : frente;
+
+        if (GridManager.Instance.ColocarSacoDeAreia(alvo))
+        {
+            Debug.Log("Saco de areia colocado!");
+        }
+    }
+
+    // Verifica se o robô está em cima de um perigo não neutralizado
+    public bool EstaEmPerigoMortal()
+    {
+        TipoElemento elem = GridManager.Instance.ObterTipoElemento(PosicaoAtual);
+        if (elem == TipoElemento.Chama) return true;
+        if (!isDrone && elem == TipoElemento.AguaInundacao) return true;
+        return false;
     }
 
     public bool TemAguaAFrente() => GridManager.Instance.ObterTipoElemento(PosicaoAtual + DirecaoOlhar) == TipoElemento.AguaInundacao;
@@ -116,7 +152,9 @@ public class VeiculoAgente : MonoBehaviour
 
     public void ExecutarApagarFogo()
     {
-        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
+        Vector2Int frente = PosicaoAtual + DirecaoOlhar;
+        Vector2Int alvo = (GridManager.Instance.ObterTipoElemento(PosicaoAtual) == TipoElemento.Chama) ? PosicaoAtual : frente;
+
         if (GridManager.Instance.ObterTipoElemento(alvo) == TipoElemento.Chama)
         {
             GridManager.Instance.LimparCelula(alvo);
@@ -124,33 +162,76 @@ public class VeiculoAgente : MonoBehaviour
         }
     }
 
+    // Ação do Drone: Largar Kit Médico
     public void ExecutarLargarKit()
     {
         if (!isDrone) return;
-        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
+
+        Vector2Int frente = PosicaoAtual + DirecaoOlhar;
+        
+        // Verifica se a vítima está na mesma célula ou na célula à frente
+        Vector2Int alvo = (GridManager.Instance.ObterTipoElemento(PosicaoAtual) == TipoElemento.Pessoas ||
+                           GridManager.Instance.ObterTipoElemento(PosicaoAtual) == TipoElemento.PessoasInundacao) 
+                           ? PosicaoAtual : frente;
+
         TipoElemento elem = GridManager.Instance.ObterTipoElemento(alvo);
 
         if (elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao)
         {
             GridManager.Instance.LimparCelula(alvo);
             vitimasResgatadas++;
-            int totalNecessario = GridManager.Instance.TotalVitimasNivel;
-            Debug.Log($"Kit entregue! Vítimas salvas: {vitimasResgatadas}/{totalNecessario}");
+            Debug.Log($"Kit entregue com sucesso! Salvas: {vitimasResgatadas}/{GridManager.Instance.TotalVitimasNivel}");
             VerificarVitoria();
+        }
+        else
+        {
+            Debug.LogWarning("Nenhuma vítima encontrada para entregar o kit!");
         }
     }
 
+    // Ação do Robô: Resgatar Pessoa
     public void ExecutarResgatarPessoa()
     {
         if (isDrone) return;
-        Vector2Int alvo = PosicaoAtual + DirecaoOlhar;
+
+        Vector2Int frente = PosicaoAtual + DirecaoOlhar;
+
+        // Verifica se a vítima está na mesma célula ou na célula à frente
+        Vector2Int alvo = (GridManager.Instance.ObterTipoElemento(PosicaoAtual) == TipoElemento.Pessoas ||
+                           GridManager.Instance.ObterTipoElemento(PosicaoAtual) == TipoElemento.PessoasInundacao) 
+                           ? PosicaoAtual : frente;
+
         TipoElemento elem = GridManager.Instance.ObterTipoElemento(alvo);
 
         if (elem == TipoElemento.Pessoas || elem == TipoElemento.PessoasInundacao)
         {
             GridManager.Instance.LimparCelula(alvo);
             vitimasEmTransporte++;
-            Debug.Log($"Vítima recolhida! Vítimas a bordo: {vitimasEmTransporte}");
+            Debug.Log($"Vítima recolhida! Vítimas a bordo: {vitimasEmTransporte}. Leva-a ao Hospital!");
+        }
+        else
+        {
+            Debug.LogWarning("Nenhuma vítima próxima para resgatar!");
+        }
+    }
+
+    public bool MissaoConcluida { get; private set; } = false;
+
+    // Repõe o veículo na posição inicial sem apagar o algoritmo da UI
+    public void ReporPosicaoInicial()
+    {
+        if (MissaoConcluida) return;
+
+        StopAllCoroutines();
+        TeveDerrota = false;
+        vitimasResgatadas = 0;
+        vitimasEmTransporte = 0;
+        DirecaoOlhar = new Vector2Int(0, -1);
+        PosicionarNaGrelha(Vector2Int.zero);
+
+        if (GridManager.Instance != null)
+        {
+            GridManager.Instance.RestaurarMapaOriginal();
         }
     }
 
@@ -159,9 +240,15 @@ public class VeiculoAgente : MonoBehaviour
         int totalNecessario = GridManager.Instance.TotalVitimasNivel;
         if (vitimasResgatadas >= totalNecessario)
         {
+            MissaoConcluida = true;
             Debug.Log("Missão Concluída com Sucesso!");
+
             if (PlayerProgressManager.Instance != null)
                 PlayerProgressManager.Instance.FinalizarMissao(true, 100f);
+
+            // Abre o painel de vitória na UI
+            if (MenuModaisManager.Instance != null)
+                MenuModaisManager.Instance.MostrarVitoria();
         }
     }
 }

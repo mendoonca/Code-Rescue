@@ -10,11 +10,15 @@ public class MenuModaisManager : MonoBehaviour
     public GameObject popupAcao;
     public GameObject popupIf;
 
+    [Header("Paineis Fim de Jogo")]
+    public GameObject painelVitoria;
+    public GameObject painelDerrota;
+
     [Header("Botoes Exclusivos no Popup de Acao")]
-    public GameObject btnColocarSaco;      // Robo
-    public GameObject btnResgatarPessoa;   // Robo
-    public GameObject btnLargarKitMedico;  // Drone
-    public GameObject btnApagarFogo;       // Ambos
+    public GameObject btnColocarSaco;
+    public GameObject btnResgatarPessoa;
+    public GameObject btnLargarKitMedico;
+    public GameObject btnApagarFogo;
 
     private void Awake()
     {
@@ -24,33 +28,34 @@ public class MenuModaisManager : MonoBehaviour
     private void Start()
     {
         FecharTodosPopups();
+        if (painelVitoria != null) painelVitoria.SetActive(false);
+        if (painelDerrota != null) painelDerrota.SetActive(false);
     }
 
-    // --- ABRIR POPUPS ---
+    // --- POPUPS DE PROGRAMAÇÃO ---
     public void AbrirPopupCiclo()
     {
         FecharTodosPopups();
-        popupCiclo.SetActive(true);
+        if (popupCiclo != null) popupCiclo.SetActive(true);
     }
 
     public void AbrirPopupAcao()
     {
         FecharTodosPopups();
-        popupAcao.SetActive(true);
+        if (popupAcao != null) popupAcao.SetActive(true);
 
         bool isDrone = (GameManager.Instance == null || GameManager.Instance.EquipamentoSelecionado == TipoEquipamento.Drone);
 
-        // Filtra os botões de acordo com o veículo ativo
-        btnApagarFogo.SetActive(true);
-        btnLargarKitMedico.SetActive(isDrone);
-        btnColocarSaco.SetActive(!isDrone);
-        btnResgatarPessoa.SetActive(!isDrone);
+        if (btnApagarFogo != null) btnApagarFogo.SetActive(true);
+        if (btnLargarKitMedico != null) btnLargarKitMedico.SetActive(isDrone);
+        if (btnColocarSaco != null) btnColocarSaco.SetActive(!isDrone);
+        if (btnResgatarPessoa != null) btnResgatarPessoa.SetActive(!isDrone);
     }
 
     public void AbrirPopupIf()
     {
         FecharTodosPopups();
-        popupIf.SetActive(true);
+        if (popupIf != null) popupIf.SetActive(true);
     }
 
     public void FecharTodosPopups()
@@ -60,73 +65,48 @@ public class MenuModaisManager : MonoBehaviour
         if (popupIf != null) popupIf.SetActive(false);
     }
 
-    // --- SELEÇÕES DO POPUP CICLO (2 a 5) ---
+    // --- SELEÇÕES CICLO ---
     public void SelecionarCiclo(int repeticoes)
     {
         ExecutadorComandos.Instance.InserirCiclo(repeticoes);
         FecharTodosPopups();
     }
 
-    // --- SELEÇÕES DO POPUP AÇÃO ---
-    public void SelecionarApagarFogo()
+    // --- SELEÇÕES AÇÃO ---
+    public void SelecionarApagarFogo()    { ExecutadorComandos.Instance.InserirAcao(TipoComando.ApagarFogo); FecharTodosPopups(); }
+    public void SelecionarColocarSaco()   { ExecutadorComandos.Instance.InserirAcao(TipoComando.ColocarSaco); FecharTodosPopups(); }
+    public void SelecionarResgatarPessoa(){ ExecutadorComandos.Instance.InserirAcao(TipoComando.ResgatarPessoa); FecharTodosPopups(); }
+    public void SelecionarLargarKit()     { ExecutadorComandos.Instance.InserirAcao(TipoComando.LargarKitMedico); FecharTodosPopups(); }
+
+    // --- SELEÇÕES IF ---
+    public void SelecionarIfFrenteFogo()       { ExecutadorComandos.Instance.InserirSe(TipoCondicao.FrenteTemFogo); FecharTodosPopups(); }
+    public void SelecionarIfFrenteAgua()       { ExecutadorComandos.Instance.InserirSe(TipoCondicao.FrenteTemAgua); FecharTodosPopups(); }
+    public void SelecionarIfFrentePessoa()     { ExecutadorComandos.Instance.InserirSe(TipoCondicao.FrenteTemPessoa); FecharTodosPopups(); }
+    public void SelecionarIfCaminhoBloqueado() { ExecutadorComandos.Instance.InserirSe(TipoCondicao.CaminhoBloqueado); FecharTodosPopups(); }
+
+    // --- TELAS DE FIM DE JOGO ---
+    public void MostrarVitoria()
     {
-        ExecutadorComandos.Instance.InserirAcao(TipoComando.ApagarFogo);
         FecharTodosPopups();
+        if (painelVitoria != null) painelVitoria.SetActive(true);
     }
 
-    public void SelecionarColocarSaco()
+    public void MostrarDerrota()
     {
-        ExecutadorComandos.Instance.InserirAcao(TipoComando.ColocarSaco);
         FecharTodosPopups();
+        if (painelDerrota != null) painelDerrota.SetActive(true);
     }
 
-    public void SelecionarResgatarPessoa()
+    public void ReiniciarMissao()
     {
-        ExecutadorComandos.Instance.InserirAcao(TipoComando.ResgatarPessoa);
-        FecharTodosPopups();
-    }
-
-    public void SelecionarLargarKit()
-    {
-        ExecutadorComandos.Instance.InserirAcao(TipoComando.LargarKitMedico);
-        FecharTodosPopups();
-    }
-
-    // --- SELEÇÕES DO POPUP IF ---
-    public void SelecionarIfFrenteFogo()
-    {
-        ExecutadorComandos.Instance.InserirSe(TipoCondicao.FrenteTemFogo);
-        FecharTodosPopups();
-    }
-
-    public void SelecionarIfFrenteAgua()
-    {
-        ExecutadorComandos.Instance.InserirSe(TipoCondicao.FrenteTemAgua);
-        FecharTodosPopups();
-    }
-
-    public void SelecionarIfFrentePessoa()
-    {
-        ExecutadorComandos.Instance.InserirSe(TipoCondicao.FrenteTemPessoa);
-        FecharTodosPopups();
-    }
-
-    public void SelecionarIfCaminhoBloqueado()
-    {
-        ExecutadorComandos.Instance.InserirSe(TipoCondicao.CaminhoBloqueado);
-        FecharTodosPopups();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void VoltarMenuNiveis()
     {
-        // Verifica qual equipamento estava selecionado para voltar ao menu correspondente
         if (GameManager.Instance != null && GameManager.Instance.EquipamentoSelecionado == TipoEquipamento.Drone)
-        {
             SceneManager.LoadScene("DroneNiveis");
-        }
         else
-        {
             SceneManager.LoadScene("RoboNiveis");
-        }
     }
 }

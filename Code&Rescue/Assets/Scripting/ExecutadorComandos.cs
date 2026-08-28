@@ -220,8 +220,41 @@ public class ExecutadorComandos : MonoBehaviour
                     break;
             }
 
+            // Se o comando acabou de ser executado e o robô está em perigo sem ter apagado/bloqueado:
+            if (VeiculoAgente.Instance.EstaEmPerigoMortal())
+            {
+                // Verifica se o comando seguinte neutraliza a ameaça
+                bool proximoSalva = false;
+                if (ponteiro + 1 < algoritmo.Count)
+                {
+                    TipoComando prox = algoritmo[ponteiro + 1].tipo;
+                    TipoElemento perigoAtual = GridManager.Instance.ObterTipoElemento(VeiculoAgente.Instance.PosicaoAtual);
+
+                    if (perigoAtual == TipoElemento.Chama && prox == TipoComando.ApagarFogo)
+                        proximoSalva = true;
+                    else if (perigoAtual == TipoElemento.AguaInundacao && prox == TipoComando.ColocarSaco)
+                        proximoSalva = true;
+                }
+
+                if (!proximoSalva)
+                {
+                    yield return new WaitForSeconds(0.4f);
+                    Debug.LogWarning("O jogador entrou no perigo e não usou a ação necessária a seguir!");
+                    VeiculoAgente.Instance.ExecutarDerrota();
+                    emExecucao = false;
+                    yield break;
+                }
+            }
+
             ponteiro++;
             yield return new WaitForSeconds(0.25f);
+        }
+
+        yield return new WaitForSeconds(0.4f);
+
+        if (VeiculoAgente.Instance != null && !VeiculoAgente.Instance.MissaoConcluida && !VeiculoAgente.Instance.TeveDerrota)
+        {
+            VeiculoAgente.Instance.ReporPosicaoInicial();
         }
 
         emExecucao = false;
