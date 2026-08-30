@@ -66,9 +66,18 @@ public class VeiculoAgente : MonoBehaviour
     {
         DirecaoOlhar = direcao;
         Vector2Int destino = PosicaoAtual + direcao;
+
+        // Impede sair dos limites da grelha (fora do mapa)
+        int tamanhoGrelha = (GridManager.Instance.nivelAtual == 1) ? 5 : ((GridManager.Instance.nivelAtual == 2) ? 7 : 9);
+        if (destino.x < 0 || destino.x >= tamanhoGrelha || destino.y < 0 || destino.y >= tamanhoGrelha)
+        {
+            Debug.LogWarning($"Movimento bloqueado: {destino} está fora do mapa!");
+            yield break;
+        }
+
         TipoElemento elemDestino = GridManager.Instance.ObterTipoElemento(destino);
 
-        // Bloqueia apenas obstáculos intransponíveis
+        // Bloqueia obstáculos intransponíveis
         if (elemDestino == TipoElemento.Casa ||
             elemDestino == TipoElemento.CasaIncendio ||
             elemDestino == TipoElemento.CasaInundacao ||
@@ -76,7 +85,7 @@ public class VeiculoAgente : MonoBehaviour
             elemDestino == TipoElemento.Destrocos ||
             elemDestino == TipoElemento.Arvores)
         {
-            Debug.LogWarning($"Movimento bloqueado para {destino}!");
+            Debug.LogWarning($"Movimento bloqueado para obstáculo em {destino}!");
             yield break;
         }
 

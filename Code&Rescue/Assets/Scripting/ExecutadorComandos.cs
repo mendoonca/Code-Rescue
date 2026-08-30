@@ -139,6 +139,29 @@ public class ExecutadorComandos : MonoBehaviour
         }
     }
 
+    public void RemoverUltimoComando()
+    {
+        if (emExecucao || algoritmo.Count == 0) return;
+
+        // 1. Remove o comando da lista lógica
+        algoritmo.RemoveAt(algoritmo.Count - 1);
+
+        // 2. Destrói visualmente o último texto instanciado no Content
+        if (containerAlgoritmo != null && containerAlgoritmo.childCount > 0)
+        {
+            Transform ultimoFilho = containerAlgoritmo.GetChild(containerAlgoritmo.childCount - 1);
+            Destroy(ultimoFilho.gameObject);
+        }
+
+        // 3. Atualiza o texto do contador se existir
+        if (textoContadorLinhas != null)
+        {
+            textoContadorLinhas.text = $"Algoritmo ({algoritmo.Count})";
+        }
+
+        Debug.Log("Última linha de comando removida via Backspace.");
+    }
+
     public void IniciarExecucao()
     {
         if (!emExecucao && algoritmo.Count > 0)

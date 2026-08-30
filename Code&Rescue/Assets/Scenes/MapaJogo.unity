@@ -7059,7 +7059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -819.2011, y: -467}
+  m_AnchoredPosition: {x: -159, y: -470}
   m_SizeDelta: {x: 186.8837, y: 76.9768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1279401922
@@ -7815,7 +7815,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -141, y: -467}
+  m_AnchoredPosition: {x: -586, y: -470}
   m_SizeDelta: {x: 186.8837, y: 76.9768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1435173403
@@ -8644,7 +8644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -356, y: -467}
+  m_AnchoredPosition: {x: -801, y: -470}
   m_SizeDelta: {x: 186.8837, y: 76.9768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1539303058
@@ -11128,6 +11128,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48163de95751dea45bf9987b72b85779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuModaisManager
+  botoesNavegacao:
+  - {fileID: 338295255}
+  - {fileID: 1974588790}
+  - {fileID: 1188024324}
+  - {fileID: 144759342}
+  - {fileID: 1040621992}
+  - {fileID: 582205358}
+  - {fileID: 1002605095}
+  - {fileID: 1324955405}
+  - {fileID: 756105766}
+  - {fileID: 1539303058}
+  - {fileID: 1435173403}
+  - {fileID: 1279401922}
   popupCiclo: {fileID: 2057448693}
   popupAcao: {fileID: 1112910717}
   popupIf: {fileID: 825869126}
