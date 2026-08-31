@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public TipoEquipamento EquipamentoSelecionado { get; set; } = TipoEquipamento.Drone;
-    
     // Guarda o nível escolhido (1 = Incêndio, 2 = Inundação, 3 = Sismo/Incêndio)
     public int NivelSelecionado { get; set; } = 1;
 
@@ -24,5 +23,14 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    // Exemplo de método para chamar quando a missão for concluída com sucesso
+    public void ConcluirMissaoComSucesso(float precisao)
+    {
+        if (PlayerProgressManager.Instance != null)
+        {
+            PlayerProgressManager.Instance.FinalizarMissao(true, precisao);
+        }
     }
 }

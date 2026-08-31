@@ -1,97 +1,104 @@
 using UnityEngine;
 
+[System.Serializable]
+public struct DadosProgresso
+{
+    public int missoesCompletadas;
+    public float precisaoMedia;
+    public float tempoTotalSegundos;
+}
+
 public class PlayerProgressManager : MonoBehaviour
 {
     public static PlayerProgressManager Instance { get; private set; }
 
-    // Chaves de armazenamento
-    private const string KEY_TOTAL_JOGOS = "TotalJogos";
-    private const string KEY_VITORIAS = "TotalVitorias";
-    private const string KEY_DERROTAS = "TotalDerrotas";
-    private const string KEY_TEMPO_TOTAL = "TempoTotalSegundos";
-    private const string KEY_PRECISAO_ACUMULADA = "PrecisaoAcumulada";
-
-    private float tempoInicioMissao;
+    private int missoesCompletadas;
+    private float precisaoMedia;
+    private float tempoTotalSegundos;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    /// <summary>
-    /// Chama quando uma missão/nível é iniciado.
-    /// </summary>
-    public void IniciarMissao()
-    {
-        tempoInicioMissao = Time.time;
-        int totalJogos = PlayerPrefs.GetInt(KEY_TOTAL_JOGOS, 0) + 1;
-        PlayerPrefs.SetInt(KEY_TOTAL_JOGOS, totalJogos);
-        PlayerPrefs.Save();
-    }
-
-    /// <summary>
-    /// Regista a conclusão da missão (Vitória ou Game Over) e atualiza métricas.
-    /// </summary>
-    /// <param name="vitoria">true se salvou as vítimas / concluiu; false se falhou.</param>
-    /// <param name="precisaoNivel">Percentagem de precisão calculada para este nível (0 a 100).</param>
-    public void FinalizarMissao(bool vitoria, float precisaoNivel)
-    {
-        float tempoGasto = Time.time - tempoInicioMissao;
-
-        // Atualizar vitórias / derrotas
-        if (vitoria)
-        {
-            int vit = PlayerPrefs.GetInt(KEY_VITORIAS, 0) + 1;
-            PlayerPrefs.SetInt(KEY_VITORIAS, vit);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            CarregarDados();
         }
         else
         {
-            int der = PlayerPrefs.GetInt(KEY_DERROTAS, 0) + 1;
-            PlayerPrefs.SetInt(KEY_DERROTAS, der);
+            Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        // Contabiliza o tempo jogado globalmente
+        tempoTotalSegundos += Time.unscaledDeltaTime;
+    }
+
+    private void CarregarDados()
+    {
+        missoesCompletadas = PlayerPrefs.GetInt("Progresso_MissoesCompletadas", 0);
+        precisaoMedia = PlayerPrefs.GetFloat("Progresso_PrecisaoMedia", 0f);
+        tempoTotalSegundos = PlayerPrefs.GetFloat("Progresso_TempoTotal", 0f);
+    }
+
+    private void SalvarDados()
+    {
+        PlayerPrefs.SetInt("Progresso_MissoesCompletadas", missoesCompletadas);
+        PlayerPrefs.SetFloat("Progresso_PrecisaoMedia", precisaoMedia);
+        PlayerPrefs.SetFloat("Progresso_TempoTotal", tempoTotalSegundos);
+        PlayerPrefs.Save();
+    }
+
+    public void IniciarMissao() { }
+
+    public void FinalizarMissao(bool vitoria, float pontuacao)
+    {
+        Debug.Log($"FinalizarMissao chamado! Vitória: {vitoria}, Pontuação: {pontuacao}");
+
+        if (vitoria)
+        {
+            if (missoesCompletadas < 3)
+            {
+                missoesCompletadas++;
+            }
+
+            if (precisaoMedia <= 0f)
+                precisaoMedia = pontuacao;
+            else
+                precisaoMedia = (precisaoMedia + pontuacao) / 2f;
+        }
+        else
+        {
+            // Se perdeu, entra na média com 0% de precisão para penalizar o progresso
+            if (precisaoMedia <= 0f)
+                precisaoMedia = 0f;
+            else
+                precisaoMedia = (precisaoMedia + 0f) / 2f;
         }
 
-        // Atualizar tempo acumulado
-        float tempoAcumulado = PlayerPrefs.GetFloat(KEY_TEMPO_TOTAL, 0f) + tempoGasto;
-        PlayerPrefs.SetFloat(KEY_TEMPO_TOTAL, tempoAcumulado);
+        SalvarDados();
+        Debug.Log($"Dados guardados - Missões: {missoesCompletadas}, Precisão: {precisaoMedia}");
+    }
 
-        // Atualizar precisão acumulada
-        float precAcumulada = PlayerPrefs.GetFloat(KEY_PRECISAO_ACUMULADA, 0f) + precisaoNivel;
-        PlayerPrefs.SetFloat(KEY_PRECISAO_ACUMULADA, precAcumulada);
+    public DadosProgresso ObterDadosProgresso()
+    {
+        return new DadosProgresso
+        {
+            missoesCompletadas = this.missoesCompletadas,
+            precisaoMedia = this.precisaoMedia,
+            tempoTotalSegundos = this.tempoTotalSegundos
+        };
+    }
 
+    public void ResetarProgressoTotal()
+    {
+        PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
-    }
-
-    // Métodos para obter os dados no ecrã de Progresso
-    public int ObterTotalJogos() => PlayerPrefs.GetInt(KEY_TOTAL_JOGOS, 0);
-    public int ObterVitorias() => PlayerPrefs.GetInt(KEY_VITORIAS, 0);
-    public int ObterDerrotas() => PlayerPrefs.GetInt(KEY_DERROTAS, 0);
-
-    public float ObterPrecisaoMedia()
-    {
-        int total = ObterTotalJogos();
-        if (total == 0) return 0f;
-        return PlayerPrefs.GetFloat(KEY_PRECISAO_ACUMULADA, 0f) / total;
-    }
-
-    public int ObterTempoTotalMinutos()
-    {
-        float totalSegundos = PlayerPrefs.GetFloat(KEY_TEMPO_TOTAL, 0f);
-        return Mathf.FloorToInt(totalSegundos / 60f);
-    }
-
-    public void ResetarProgresso()
-    {
-        PlayerPrefs.DeleteKey(KEY_TOTAL_JOGOS);
-        PlayerPrefs.DeleteKey(KEY_VITORIAS);
-        PlayerPrefs.DeleteKey(KEY_DERROTAS);
-        PlayerPrefs.DeleteKey(KEY_TEMPO_TOTAL);
-        PlayerPrefs.DeleteKey(KEY_PRECISAO_ACUMULADA);
-        PlayerPrefs.Save();
+        missoesCompletadas = 0;
+        precisaoMedia = 0f;
+        tempoTotalSegundos = 0f;
+        Debug.Log("Progresso reiniciado com sucesso.");
     }
 }

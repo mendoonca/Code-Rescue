@@ -3,30 +3,41 @@ using TMPro;
 
 public class MenuProgressoUI : MonoBehaviour
 {
-    public TextMeshProUGUI textoMissoes;
-    public TextMeshProUGUI textoPrecisao;
-    public TextMeshProUGUI textoTempo;
+    [Header("Textos dos CartÃµes (TMP)")]
+    public TextMeshProUGUI txtMissoesCompletadas; // NumMissoesCompletadasText
+    public TextMeshProUGUI txtPrecisaoMedia;      // NumPrecisaoMediaText
+    public TextMeshProUGUI txtTempoTotal;         // NumTempoTotalText
 
     private void OnEnable()
     {
-        AtualizarPainel();
+        AtualizarInterfaceProgresso();
     }
 
-    public void AtualizarPainel()
+    public void AtualizarInterfaceProgresso()
     {
-        if (PlayerProgressManager.Instance == null) return;
+        if (PlayerProgressManager.Instance != null)
+        {
+            DadosProgresso dados = PlayerProgressManager.Instance.ObterDadosProgresso();
 
-        int vitorias = PlayerProgressManager.Instance.ObterVitorias();
-        float precisao = PlayerProgressManager.Instance.ObterPrecisaoMedia();
-        int tempoMin = PlayerProgressManager.Instance.ObterTempoTotalMinutos();
+            if (txtMissoesCompletadas != null)
+                txtMissoesCompletadas.text = dados.missoesCompletadas.ToString();
 
-        if (textoMissoes != null)
-            textoMissoes.text = $"{vitorias}/3";
+            if (txtPrecisaoMedia != null)
+                txtPrecisaoMedia.text = $"{dados.precisaoMedia:F0}%";
 
-        if (textoPrecisao != null)
-            textoPrecisao.text = $"{Mathf.RoundToInt(precisao)}%";
+            if (txtTempoTotal != null)
+            {
+                int minutos = Mathf.FloorToInt(dados.tempoTotalSegundos / 60f);
+                txtTempoTotal.text = $"{minutos} min";
+            }
+        }
+    }
 
-        if (textoTempo != null)
-            textoTempo.text = $"{tempoMin}min";
+    public void VoltarAoMenu()
+    {
+        if (MenuPrincipalManager.Instance != null)
+        {
+            MenuPrincipalManager.Instance.MostrarMenuPrincipal();
+        }
     }
 }
