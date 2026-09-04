@@ -4,6 +4,7 @@ using UnityEngine;
 public struct DadosProgresso
 {
     public int missoesCompletadas;
+    public int missoesTotais;
     public float precisaoMedia;
     public float tempoTotalSegundos;
 }
@@ -13,8 +14,11 @@ public class PlayerProgressManager : MonoBehaviour
     public static PlayerProgressManager Instance { get; private set; }
 
     private int missoesCompletadas;
-    private float precisaoMedia;
+    private float somaPrecisoes;
+    private int totalTentativas;
     private float tempoTotalSegundos;
+
+    private float precisaoMedia => totalTentativas > 0 ? somaPrecisoes / totalTentativas : 0f;
 
     private void Awake()
     {
@@ -39,14 +43,16 @@ public class PlayerProgressManager : MonoBehaviour
     private void CarregarDados()
     {
         missoesCompletadas = PlayerPrefs.GetInt("Progresso_MissoesCompletadas", 0);
-        precisaoMedia = PlayerPrefs.GetFloat("Progresso_PrecisaoMedia", 0f);
+        somaPrecisoes = PlayerPrefs.GetFloat("Progresso_SomaPrecisoes", 0f);
+        totalTentativas = PlayerPrefs.GetInt("Progresso_TotalTentativas", 0);
         tempoTotalSegundos = PlayerPrefs.GetFloat("Progresso_TempoTotal", 0f);
     }
 
     private void SalvarDados()
     {
         PlayerPrefs.SetInt("Progresso_MissoesCompletadas", missoesCompletadas);
-        PlayerPrefs.SetFloat("Progresso_PrecisaoMedia", precisaoMedia);
+        PlayerPrefs.SetFloat("Progresso_SomaPrecisoes", somaPrecisoes);
+        PlayerPrefs.SetInt("Progresso_TotalTentativas", totalTentativas);
         PlayerPrefs.SetFloat("Progresso_TempoTotal", tempoTotalSegundos);
         PlayerPrefs.Save();
     }
@@ -57,26 +63,15 @@ public class PlayerProgressManager : MonoBehaviour
     {
         Debug.Log($"FinalizarMissao chamado! Vitória: {vitoria}, Pontuação: {pontuacao}");
 
-        if (vitoria)
+        if (vitoria && missoesCompletadas < 3)
         {
-            if (missoesCompletadas < 3)
-            {
-                missoesCompletadas++;
-            }
+            missoesCompletadas++;
+        }
 
-            if (precisaoMedia <= 0f)
-                precisaoMedia = pontuacao;
-            else
-                precisaoMedia = (precisaoMedia + pontuacao) / 2f;
-        }
-        else
-        {
-            // Se perdeu, entra na média com 0% de precisão para penalizar o progresso
-            if (precisaoMedia <= 0f)
-                precisaoMedia = 0f;
-            else
-                precisaoMedia = (precisaoMedia + 0f) / 2f;
-        }
+        // Cada tentativa conta igual para a média: vitória entra com a sua
+        // pontuação, derrota entra com 0%.
+        somaPrecisoes += vitoria ? Mathf.Clamp(pontuacao, 0f, 100f) : 0f;
+        totalTentativas++;
 
         SalvarDados();
         Debug.Log($"Dados guardados - Missões: {missoesCompletadas}, Precisão: {precisaoMedia}");
@@ -87,6 +82,7 @@ public class PlayerProgressManager : MonoBehaviour
         return new DadosProgresso
         {
             missoesCompletadas = this.missoesCompletadas,
+            missoesTotais = this.totalTentativas,
             precisaoMedia = this.precisaoMedia,
             tempoTotalSegundos = this.tempoTotalSegundos
         };
@@ -97,7 +93,8 @@ public class PlayerProgressManager : MonoBehaviour
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
         missoesCompletadas = 0;
-        precisaoMedia = 0f;
+        somaPrecisoes = 0f;
+        totalTentativas = 0;
         tempoTotalSegundos = 0f;
         Debug.Log("Progresso reiniciado com sucesso.");
     }

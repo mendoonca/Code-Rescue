@@ -3,8 +3,9 @@ using TMPro;
 
 public class MenuProgressoUI : MonoBehaviour
 {
-    [Header("Textos dos CartÃµes (TMP)")]
+    [Header("Textos (TMP)")]
     public TextMeshProUGUI txtMissoesCompletadas; // NumMissoesCompletadasText
+    public TextMeshProUGUI txtMissoesTotais;      // NumMissoesTotaisText
     public TextMeshProUGUI txtPrecisaoMedia;      // NumPrecisaoMediaText
     public TextMeshProUGUI txtTempoTotal;         // NumTempoTotalText
 
@@ -21,6 +22,9 @@ public class MenuProgressoUI : MonoBehaviour
 
             if (txtMissoesCompletadas != null)
                 txtMissoesCompletadas.text = dados.missoesCompletadas.ToString();
+
+            if (txtMissoesTotais != null)
+                txtMissoesTotais.text = dados.missoesTotais.ToString();
 
             if (txtPrecisaoMedia != null)
                 txtPrecisaoMedia.text = $"{dados.precisaoMedia:F0}%";

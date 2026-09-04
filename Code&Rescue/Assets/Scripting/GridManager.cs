@@ -225,9 +225,9 @@ public class GridManager : MonoBehaviour
             InstanciarElemento(v, TipoElemento.PessoasInundacao, ObterSkinPessoasInundacao());
         }
 
-        for (int i = 0; i < 9; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.AguaInundacao, spriteAguaInundacao);
-        for (int i = 0; i < 4; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.CasaInundacao, spriteCasaInundacao);
-        for (int i = 0; i < 4; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Arvores, ObterSkinArvores());
+        for (int i = 0; i < 18; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.AguaInundacao, spriteAguaInundacao);
+        for (int i = 0; i < 7; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.CasaInundacao, spriteCasaInundacao);
+        for (int i = 0; i < 10; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Arvores, ObterSkinArvores());
     }
 
     // Nível 3 (Sismo e Incêndio 9x9): Procedural
@@ -241,8 +241,8 @@ public class GridManager : MonoBehaviour
         }
 
         for (int i = 0; i < 11; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.PredioSismoTerramoto, spritePredioSismo);
-        for (int i = 0; i < 9; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Destrocos, spriteDestrocos);
-        for (int i = 0; i < 5; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Chama, spriteChama);
+        for (int i = 0; i < 8; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Destrocos, spriteDestrocos);
+        for (int i = 0; i < 12; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.Chama, spriteChama);
         for (int i = 0; i < 4; i++) InstanciarElemento(SortearPosicaoLivre(), TipoElemento.CasaIncendio, spriteCasaIncendio);
     }
 

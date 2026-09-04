@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public enum TipoComando
@@ -70,6 +71,7 @@ public class ExecutadorComandos : MonoBehaviour
     public Transform containerAlgoritmo;
     public GameObject prefabLinhaCodigo;
     public TextMeshProUGUI textoContadorLinhas;
+    public ScrollRect algoritmoScrollRect;
 
     private List<BlocoComando> algoritmo = new List<BlocoComando>();
     private bool emExecucao = false;
@@ -137,6 +139,7 @@ public class ExecutadorComandos : MonoBehaviour
                     tabulacao++;
             }
         }
+        StartCoroutine(DescerScrollAteFim());
     }
 
     public void RemoverUltimoComando()
@@ -308,5 +311,25 @@ public class ExecutadorComandos : MonoBehaviour
             }
         }
         return algoritmo.Count - 1;
+    }
+
+    private IEnumerator DescerScrollAteFim()
+    {
+        yield return null; // Espera a destruição/instanciação dos GameObjects
+        yield return new WaitForEndOfFrame(); // Espera a frame de renderização terminar
+
+        if (algoritmoScrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            
+            // Força a atualização da altura física do Content
+            if (containerAlgoritmo != null)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(containerAlgoritmo.GetComponent<RectTransform>());
+            }
+
+            Canvas.ForceUpdateCanvases();
+            algoritmoScrollRect.verticalNormalizedPosition = 0f;
+        }
     }
 }

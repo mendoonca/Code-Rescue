@@ -1038,6 +1038,7 @@ GameObject:
   - component: {fileID: 981365043}
   - component: {fileID: 981365042}
   - component: {fileID: 981365041}
+  - component: {fileID: 981365045}
   m_Layer: 5
   m_Name: "Inunda\xE7\xE3oButton"
   m_TagString: Untagged
@@ -1183,6 +1184,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981365039}
   m_CullTransparentMesh: 1
+--- !u!114 &981365045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981365039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &995016797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,6 +1855,7 @@ GameObject:
   - component: {fileID: 1527543309}
   - component: {fileID: 1527543308}
   - component: {fileID: 1527543307}
+  - component: {fileID: 1527543311}
   m_Layer: 5
   m_Name: SismoTerramotoButton
   m_TagString: Untagged
@@ -1984,6 +2001,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527543305}
   m_CullTransparentMesh: 1
+--- !u!114 &1527543311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527543305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1873538364
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,6 +2241,7 @@ GameObject:
   - component: {fileID: 1982626074}
   - component: {fileID: 1982626073}
   - component: {fileID: 1982626072}
+  - component: {fileID: 1982626076}
   m_Layer: 5
   m_Name: IncendioButton
   m_TagString: Untagged
@@ -2354,6 +2387,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982626070}
   m_CullTransparentMesh: 1
+--- !u!114 &1982626076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982626070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &2058003192
 GameObject:
   m_ObjectHideFlags: 0
