@@ -342,20 +342,19 @@ public class GridManager : MonoBehaviour
         Camera cam = Camera.main;
         if (cam == null) return;
 
-        // 1. Centro real da grelha no mundo
+        // 1. Centro do tabuleiro no mundo
         float centroX = (tamanhoGrelha - 1) * tamanhoBloco / 2f;
         float centroY = -(tamanhoGrelha - 1) * tamanhoBloco / 2f;
 
-        // 2. Altura da visão vertical com margem para os elementos de topo e base da UI
+        // 2. Altura da visão vertical com margem confortável
         float margemVertical = (tamanhoGrelha == 9) ? 2.2f : ((tamanhoGrelha == 7) ? 1.8f : 1.4f);
         cam.orthographicSize = (tamanhoGrelha * tamanhoBloco / 2f) + margemVertical;
 
-        // 3. Centralização Horizontal (75% da largura do ecrã)
-        float aspect = (float)Screen.width / Screen.height;
-        float larguraTotalMundo = cam.orthographicSize * 2f * aspect;
-        float posXCamara = centroX - (larguraTotalMundo / 4f);
+        // 3. Posicionamento para a metade direita num ecrã 16:9
+        float aspect169 = 16f / 9f;
+        float larguraMundo = cam.orthographicSize * 2f * aspect169;
+        float posXCamara = centroX - (larguraMundo / 4f);
 
-        // 4. Centralização Vertical: desce a câmara para empurrar o mapa para baixo do cabeçalho
         float offsetTopo = cam.orthographicSize * 0.08f;
         float posYCamara = centroY + offsetTopo;
 
