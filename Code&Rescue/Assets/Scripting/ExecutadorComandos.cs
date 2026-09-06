@@ -46,8 +46,8 @@ public class BlocoComando
     {
         switch (tipo)
         {
-            case TipoComando.MoverFrente: return "Mover_Frente()";
-            case TipoComando.MoverTras: return "Mover_Tras()";
+            case TipoComando.MoverFrente: return "Mover_Cima()";
+            case TipoComando.MoverTras:   return "Mover_Baixo()";
             case TipoComando.MoverEsquerda: return "Mover_Esquerda()";
             case TipoComando.MoverDireita: return "Mover_Direita()";
             case TipoComando.ApagarFogo: return "Apagar_Fogo()";
